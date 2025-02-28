@@ -1,8 +1,12 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, Get, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { CreateTattooArtistDto } from './dto/create-tattoo-artis.dto';
 import { LoginDto } from './dto/login.dto';
+import { AuthGuard } from '@nestjs/passport';
+import { User } from './entities/user.entity';
+import { GetUser } from './decorators/getUser.decorator';
+import { TattooArtist } from './entities/tattoo-artist.entity';
 
 @Controller('auth')
 export class AuthController {
@@ -26,5 +30,11 @@ export class AuthController {
   @Post('login')
   login(@Body() logindto: LoginDto) {
     return this.authService.login(logindto);
+  }
+
+  @Get('get-user')
+  @UseGuards(AuthGuard('jwt'))
+  getUser(@GetUser() user: User | TattooArtist) {
+    return user;
   }
 }

@@ -19,7 +19,7 @@ export class AuthService {
     @InjectModel(User.name) private readonly userModel: Model<User>,
     @InjectModel(TattooArtist.name)
     private readonly tattooArtistModel: Model<TattooArtist>,
-    private readonly JwrService: JwtService,
+    private readonly JwtService: JwtService,
   ) {}
 
   private async validateEmail(email: string) {
@@ -49,14 +49,12 @@ export class AuthService {
     if (user)
       return {
         user,
-        isUser: true,
         type: 'user',
       };
 
     if (tattooArtist)
       return {
         tattooArtist,
-        isUser: false,
         type: 'tattooArtist',
       };
   }
@@ -69,7 +67,7 @@ export class AuthService {
     });
     console.log(user);
 
-    const tokenVerification = this.JwrService.sign({ email: user.email });
+    const tokenVerification = this.JwtService.sign({ email: user.email });
 
     const Mai = new MailService();
     const email = await Mai.sendMail(user, tokenVerification);
@@ -78,6 +76,7 @@ export class AuthService {
   }
 
   async registerTattooArtist(createTattooArtistDto: CreateTattooArtistDto) {
+    console.log(createTattooArtistDto);
     await this.validateEmail(createTattooArtistDto.email);
 
     const tattooArtist = await this.tattooArtistModel.create({
@@ -85,7 +84,7 @@ export class AuthService {
       password: bcrypt.hashSync(createTattooArtistDto.password, 8),
     });
 
-    const tokenVerification = this.JwrService.sign({
+    const tokenVerification = this.JwtService.sign({
       email: tattooArtist.email,
     });
 
@@ -97,7 +96,7 @@ export class AuthService {
 
   async verifyEmail(token: string) {
     try {
-      const decoded: { email: string } = this.JwrService.verify(token, {
+      const decoded: { email: string } = this.JwtService.verify(token, {
         secret: envs.JWT_SECRET,
       });
 
@@ -147,7 +146,7 @@ export class AuthService {
         throw new BadRequestException('Email not verified');
       }
 
-      return { token: this.JwrService.sign({ email: user.user.email }) };
+      return { token: this.JwtService.sign({ email: user.user.email }) };
     }
 
     if (user?.type === 'tattooArtist') {
@@ -164,7 +163,7 @@ export class AuthService {
       }
 
       return {
-        token: this.JwrService.sign({ email: user.tattooArtist.email }),
+        token: this.JwtService.sign({ email: user.tattooArtist.email }),
       };
     }
   }

@@ -9,10 +9,11 @@ import {
   TattooArtist,
   TattooArtistSchema,
 } from './entities/tattoo-artist.entity';
+import { JwtStrategy } from './strategies/jwt.strategy';
 
 @Module({
   controllers: [AuthController],
-  providers: [AuthService],
+  providers: [AuthService, JwtStrategy],
   imports: [
     JwtModule.register({
       secret: envs.JWT_SECRET,

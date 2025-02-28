@@ -1,6 +1,31 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
+@Schema({ _id: false })
+class SocialNetworks {
+  @Prop({
+    type: String,
+  })
+  instagram: string;
+
+  @Prop({
+    type: String,
+  })
+  facebook: string;
+
+  @Prop({
+    type: String,
+  })
+  twitter: string;
+
+  @Prop({
+    type: String,
+  })
+  tiktok: string;
+}
+
+const SocialNetworksSchema = SchemaFactory.createForClass(SocialNetworks);
+
 @Schema()
 export class TattooArtist extends Document {
   @Prop({
@@ -38,22 +63,17 @@ export class TattooArtist extends Document {
   @Prop({
     type: String,
   })
-  instagram: string;
+  photoPerfil: string;
 
   @Prop({
     type: String,
   })
-  facebook: string;
+  photoBackground: string;
 
   @Prop({
-    type: String,
+    type: SocialNetworksSchema,
   })
-  twitter: string;
-
-  @Prop({
-    type: String,
-  })
-  tiktok: string;
+  socialNetworks: SocialNetworks;
 
   @Prop({
     type: String,
