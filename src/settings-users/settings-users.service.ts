@@ -70,7 +70,7 @@ export class SettingsUsersService {
     user: GetUserType | GetTattooArtistType,
   ) {
     if (user.type === 'user') {
-      if (user.user.photoPerfil) {
+      if (user.user?.photoPerfil) {
         await cloudinaryAdapter.deleteImage(
           user.user.photoPerfil.public_id.replace('&', '/'),
         );
@@ -100,7 +100,7 @@ export class SettingsUsersService {
     }
 
     if (user.type === 'tattooArtist') {
-      if (user.tattooArtist.photoPerfil) {
+      if (user.tattooArtist?.photoPerfil) {
         await cloudinaryAdapter.deleteImage(
           user.tattooArtist.photoPerfil.public_id.replace('&', '/'),
         );
@@ -125,6 +125,77 @@ export class SettingsUsersService {
         },
         { new: true },
       );
+
+      return tattooArtistPhoto;
+    }
+  }
+
+  async updatebackgroundPhoto(
+    backgroundPhoto: Express.Multer.File,
+    user: GetUserType | GetTattooArtistType,
+  ) {
+    if (user.type === 'user') {
+      if (user.user?.photoBackground) {
+        await cloudinaryAdapter.deleteImage(
+          user.user.photoBackground.public_id.replace('&', '/'),
+        );
+      }
+
+      const photo = await cloudinaryAdapter.uploadImageOne(
+        backgroundPhoto,
+        user.user.name.replace(' ', '_'),
+      );
+
+      const userBackgroundPhoto = await this.userModel
+        .findOneAndUpdate(
+          {
+            _id: new Types.ObjectId(user.user._id as string),
+          },
+          {
+            $set: {
+              photoBackground: {
+                url: photo.url,
+                public_id: photo.public_id.replace('/', '&'),
+              },
+            },
+          },
+          { new: true },
+        )
+        .select('-password');
+
+      return {
+        userBackgroundPhoto,
+      };
+    }
+
+    if (user.type === 'tattooArtist') {
+      if (user.tattooArtist?.photoBackground) {
+        await cloudinaryAdapter.deleteImage(
+          user.tattooArtist.photoBackground.public_id.replace('&', '/'),
+        );
+      }
+
+      const photo = await cloudinaryAdapter.uploadImageOne(
+        backgroundPhoto,
+        user.tattooArtist.name.replace(' ', '_'),
+      );
+
+      const tattooArtistPhoto = await this.tattoArtistModel
+        .findOneAndUpdate(
+          {
+            _id: new Types.ObjectId(user.tattooArtist._id as string),
+          },
+          {
+            $set: {
+              photoBackground: {
+                url: photo.url,
+                public_id: photo.public_id.replace('/', '&'),
+              },
+            },
+          },
+          { new: true },
+        )
+        .select('-password');
 
       return tattooArtistPhoto;
     }

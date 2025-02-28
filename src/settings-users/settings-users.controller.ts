@@ -67,4 +67,24 @@ export class SettingsUsersController {
   ) {
     return this.settingsUsersService.updatePhotoProfile(photoProfile, user);
   }
+
+  @Post('update-photo-background')
+  @UseGuards(AuthGuard())
+  @UseInterceptors(FileInterceptor('backgroundPhoto'))
+  updatePhotoBackground(
+    @GetUser() user: GetUserType | GetTattooArtistType,
+    @UploadedFile(
+      new ParseFilePipe({
+        validators: [
+          new FileTypeValidator({ fileType: /^image\/(jpeg|png|webp)$/ }),
+        ],
+      }),
+    )
+    backgroundPhoto: Express.Multer.File,
+  ) {
+    return this.settingsUsersService.updatebackgroundPhoto(
+      backgroundPhoto,
+      user,
+    );
+  }
 }
