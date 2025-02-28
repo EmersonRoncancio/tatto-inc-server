@@ -8,11 +8,13 @@ import {
   TattooArtistSchema,
 } from 'src/auth/entities/tattoo-artist.entity';
 import { AuthModule } from 'src/auth/auth.module';
+import { CommonModule } from 'src/common/common.module';
 
 @Module({
   controllers: [SettingsUsersController],
   providers: [SettingsUsersService],
   imports: [
+    CommonModule,
     AuthModule,
     MongooseModule.forFeature([
       { name: User.name, schema: UserSchema },

@@ -1,6 +1,20 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
+@Schema({ _id: false })
+class imagesProfileandBackground extends Document {
+  @Prop({
+    required: true,
+    index: true,
+  })
+  url: string;
+
+  @Prop({
+    index: true,
+  })
+  public_id: string;
+}
+
 @Schema()
 export class User extends Document {
   @Prop({
@@ -24,14 +38,14 @@ export class User extends Document {
   password: string;
 
   @Prop({
-    type: String,
+    type: imagesProfileandBackground,
   })
-  photoPerfil: string;
+  photoPerfil: imagesProfileandBackground;
 
   @Prop({
-    type: String,
+    type: imagesProfileandBackground,
   })
-  photoBackground: string;
+  photoBackground: imagesProfileandBackground;
 
   @Prop({
     type: Date,

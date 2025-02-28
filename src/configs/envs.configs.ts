@@ -9,6 +9,9 @@ const envVarsSchema = joi
     JWT_SECRET: joi.string().required(),
     PASSWORD_SECRET_EMAIL: joi.string().required(),
     EMAIL_SENDER: joi.string().required(),
+    CLOUDINARY_NAME: joi.string().required(),
+    CLOUDINARY_API_KEY: joi.string().required(),
+    CLOUDINARY_API_SECRET: joi.string().required(),
   })
   .unknown(true);
 
@@ -26,6 +29,9 @@ interface Env {
   JWT_SECRET: string;
   PASSWORD_SECRET_EMAIL: string;
   EMAIL_SENDER: string;
+  CLOUDINARY_NAME: string;
+  CLOUDINARY_API_KEY: string;
+  CLOUDINARY_API_SECRET: string;
 }
 
 const env: Env = value as Env;
@@ -37,4 +43,7 @@ export const envs = {
   JWT_SECRET: env?.JWT_SECRET,
   PASSWORD_SECRET_EMAIL: env?.PASSWORD_SECRET_EMAIL,
   EMAIL_SENDER: env?.EMAIL_SENDER,
+  CLOUDINARY_NAME: env?.CLOUDINARY_NAME,
+  CLOUDINARY_API_KEY: env?.CLOUDINARY_API_KEY,
+  CLOUDINARY_API_SECRET: env?.CLOUDINARY_API_SECRET,
 };
