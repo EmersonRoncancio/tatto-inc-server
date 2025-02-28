@@ -57,6 +57,7 @@ export class SettingsUsersService {
           $set: {
             description: updateDescriptionAddressDto.description,
             address: updateDescriptionAddressDto.address,
+            numberPhone: updateDescriptionAddressDto.numberPhone,
           },
         },
         { new: true },

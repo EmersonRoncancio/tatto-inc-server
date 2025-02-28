@@ -98,6 +98,11 @@ export class TattooArtist extends Document {
   description: string;
 
   @Prop({
+    type: String,
+  })
+  numberPhone: string;
+
+  @Prop({
     type: Boolean,
     default: false,
   })
