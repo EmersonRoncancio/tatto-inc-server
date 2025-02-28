@@ -8,6 +8,8 @@ import { TattooArtist } from './entities/tattoo-artist.entity';
 import { JwtService } from '@nestjs/jwt';
 import { MailService } from 'src/configs/mailer.configs';
 import { envs } from 'src/configs/envs.configs';
+import { LoginDto } from './dto/login.dto';
+import * as bcrypt from 'bcryptjs';
 
 @Injectable()
 export class AuthService {
@@ -59,9 +61,12 @@ export class AuthService {
       };
   }
 
-  async registerUser(CreateUserDto: CreateUserDto) {
-    await this.validateEmail(CreateUserDto.email);
-    const user = await this.userModel.create(CreateUserDto);
+  async registerUser(createUserDto: CreateUserDto) {
+    await this.validateEmail(createUserDto.email);
+    const user = await this.userModel.create({
+      ...CreateUserDto,
+      password: bcrypt.hashSync(createUserDto.password, 8),
+    });
 
     const tokenVerification = this.JwrService.sign({ email: user.email });
 
@@ -71,12 +76,13 @@ export class AuthService {
     return { user, email };
   }
 
-  async registerTattooArtist(CreateTattooArtistDto: CreateTattooArtistDto) {
-    await this.validateEmail(CreateTattooArtistDto.email);
+  async registerTattooArtist(createTattooArtistDto: CreateTattooArtistDto) {
+    await this.validateEmail(createTattooArtistDto.email);
 
-    const tattooArtist = await this.tattooArtistModel.create(
-      CreateTattooArtistDto,
-    );
+    const tattooArtist = await this.tattooArtistModel.create({
+      ...createTattooArtistDto,
+      password: bcrypt.hashSync(createTattooArtistDto.password, 8),
+    });
 
     const tokenVerification = this.JwrService.sign({
       email: tattooArtist.email,
@@ -117,6 +123,48 @@ export class AuthService {
     } catch (error) {
       this.logger.error(error);
       throw new BadRequestException('Invalid token');
+    }
+  }
+
+  async login(logindto: LoginDto) {
+    const user = await this.validateUsersOrTattooArtist(logindto.email);
+
+    if (user === false) {
+      throw new BadRequestException('User not found');
+    }
+
+    if (user?.type === 'user') {
+      const validatePassword = bcrypt.compareSync(
+        logindto.password,
+        user.user?.password as string,
+      );
+      if (!validatePassword) {
+        throw new BadRequestException('Invalid password');
+      }
+
+      if (!user.user?.isVerified) {
+        throw new BadRequestException('Email not verified');
+      }
+
+      return { token: this.JwrService.sign({ email: user.user.email }) };
+    }
+
+    if (user?.type === 'tattooArtist') {
+      const validatePassword = bcrypt.compareSync(
+        logindto.password,
+        user.tattooArtist?.password as string,
+      );
+      if (!validatePassword) {
+        throw new BadRequestException('Invalid password');
+      }
+
+      if (!user.tattooArtist?.isVerified) {
+        throw new BadRequestException('Email not verified');
+      }
+
+      return {
+        token: this.JwrService.sign({ email: user.tattooArtist.email }),
+      };
     }
   }
 }

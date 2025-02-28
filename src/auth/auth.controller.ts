@@ -2,6 +2,7 @@ import { Body, Controller, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { CreateTattooArtistDto } from './dto/create-tattoo-artis.dto';
+import { LoginDto } from './dto/login.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -20,5 +21,10 @@ export class AuthController {
   @Post('verify-email')
   verifyEmail(@Body('token') token: string) {
     return this.authService.verifyEmail(token);
+  }
+
+  @Post('login')
+  login(@Body() logindto: LoginDto) {
+    return this.authService.login(logindto);
   }
 }
