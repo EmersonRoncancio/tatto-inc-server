@@ -10,11 +10,13 @@ import {
   TattooArtistSchema,
 } from './entities/tattoo-artist.entity';
 import { JwtStrategy } from './strategies/jwt.strategy';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy],
   imports: [
+    PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
       secret: envs.JWT_SECRET,
       signOptions: { expiresIn: '1h' },
@@ -24,5 +26,6 @@ import { JwtStrategy } from './strategies/jwt.strategy';
       { name: TattooArtist.name, schema: TattooArtistSchema },
     ]),
   ],
+  exports: [JwtModule, MongooseModule, JwtStrategy, PassportModule],
 })
 export class AuthModule {}

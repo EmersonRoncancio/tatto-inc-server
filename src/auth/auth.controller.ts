@@ -33,7 +33,7 @@ export class AuthController {
   }
 
   @Get('get-user')
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(AuthGuard())
   getUser(@GetUser() user: User | TattooArtist) {
     return user;
   }

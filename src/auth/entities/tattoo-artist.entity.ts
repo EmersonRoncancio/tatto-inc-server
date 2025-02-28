@@ -2,7 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
 @Schema({ _id: false })
-class SocialNetworks {
+class SocialNetworks extends Document {
   @Prop({
     type: String,
   })
@@ -23,8 +23,6 @@ class SocialNetworks {
   })
   tiktok: string;
 }
-
-const SocialNetworksSchema = SchemaFactory.createForClass(SocialNetworks);
 
 @Schema()
 export class TattooArtist extends Document {
@@ -71,7 +69,7 @@ export class TattooArtist extends Document {
   photoBackground: string;
 
   @Prop({
-    type: SocialNetworksSchema,
+    type: SocialNetworks,
   })
   socialNetworks: SocialNetworks;
 

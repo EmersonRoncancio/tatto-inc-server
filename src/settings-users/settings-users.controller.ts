@@ -1,0 +1,29 @@
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Patch,
+  UseGuards,
+} from '@nestjs/common';
+import { SettingsUsersService } from './settings-users.service';
+import { AuthGuard } from '@nestjs/passport';
+import { GetUser } from 'src/auth/decorators/getUser.decorator';
+import { GetTattooArtistType, GetUserType } from './types/get-user.types';
+import { SocialNetworksDto } from './dto/create-settings-user.dto';
+
+@Controller('settings-users')
+export class SettingsUsersController {
+  constructor(private readonly settingsUsersService: SettingsUsersService) {}
+
+  @Patch('add-social-network')
+  @UseGuards(AuthGuard())
+  addSocialNetwork(
+    @GetUser() user: GetUserType | GetTattooArtistType,
+    @Body() socialNetwork: SocialNetworksDto,
+  ) {
+    if (user.type === 'user') {
+      throw new BadRequestException('User cannot add social network');
+    }
+    return this.settingsUsersService.addSocialNetwork(user, socialNetwork);
+  }
+}
