@@ -1,6 +1,7 @@
-import { Prop } from '@nestjs/mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
+@Schema()
 export class TattooArtist extends Document {
   @Prop({
     type: String,
@@ -63,4 +64,12 @@ export class TattooArtist extends Document {
     type: String,
   })
   description: string;
+
+  @Prop({
+    type: Boolean,
+    default: false,
+  })
+  isVerified: boolean;
 }
+
+export const TattooArtistSchema = SchemaFactory.createForClass(TattooArtist);

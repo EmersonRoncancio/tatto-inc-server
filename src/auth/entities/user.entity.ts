@@ -1,6 +1,7 @@
-import { Prop } from '@nestjs/mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
+@Schema()
 export class User extends Document {
   @Prop({
     type: String,
@@ -27,4 +28,12 @@ export class User extends Document {
     default: Date.now,
   })
   registrationDate: Date;
+
+  @Prop({
+    type: Boolean,
+    default: false,
+  })
+  isVerified: boolean;
 }
+
+export const UserSchema = SchemaFactory.createForClass(User);
