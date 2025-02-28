@@ -20,7 +20,7 @@ export class TattooArtist extends Document {
     type: String,
     required: true,
   })
-  expereince: string;
+  experience: string;
 
   @Prop({
     type: String,

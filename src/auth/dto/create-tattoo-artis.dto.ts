@@ -17,7 +17,7 @@ export class CreateTattooArtistDto {
 
   @IsString()
   @MinLength(3)
-  expereince: string;
+  experience: string;
 
   @IsString()
   @IsEmail()
