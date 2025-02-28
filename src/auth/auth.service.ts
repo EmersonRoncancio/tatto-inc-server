@@ -64,9 +64,10 @@ export class AuthService {
   async registerUser(createUserDto: CreateUserDto) {
     await this.validateEmail(createUserDto.email);
     const user = await this.userModel.create({
-      ...CreateUserDto,
+      ...createUserDto,
       password: bcrypt.hashSync(createUserDto.password, 8),
     });
+    console.log(user);
 
     const tokenVerification = this.JwrService.sign({ email: user.email });
 
