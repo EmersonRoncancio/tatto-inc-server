@@ -34,7 +34,7 @@ export class SettingsUsersController {
     return this.settingsUsersService.addSocialNetwork(user, socialNetwork);
   }
 
-  @Patch('update-description-address')
+  @Patch('update-tattoo-artist')
   @UseGuards(AuthGuard())
   updateDescriptionAddress(
     @GetUser() user: GetUserType | GetTattooArtistType,
