@@ -167,4 +167,12 @@ export class AuthService {
       };
     }
   }
+
+  async getTattooArtist(id: string) {
+    return await this.tattooArtistModel.findById(id).select('-password');
+  }
+
+  async getFindTattooArtist() {
+    return await this.tattooArtistModel.find().select('-password');
+  }
 }

@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Get, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, Get, UseGuards, Param } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { CreateTattooArtistDto } from './dto/create-tattoo-artis.dto';
@@ -36,5 +36,17 @@ export class AuthController {
   @UseGuards(AuthGuard())
   getUser(@GetUser() user: User | TattooArtist) {
     return user;
+  }
+
+  @Get('get-tattoo-artist/:id')
+  @UseGuards(AuthGuard())
+  getTattooArtist(@Param('id') id: string) {
+    return this.authService.getTattooArtist(id);
+  }
+
+  @Get('get-find-tattoo-artist')
+  @UseGuards(AuthGuard())
+  getFindTattooArtist() {
+    return this.authService.getFindTattooArtist();
   }
 }
