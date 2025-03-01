@@ -55,6 +55,9 @@ export class SettingsUsersService {
         },
         {
           $set: {
+            name: updateDescriptionAddressDto.name,
+            experience: updateDescriptionAddressDto.experience,
+            specialty: updateDescriptionAddressDto.specialty,
             description: updateDescriptionAddressDto.description,
             address: updateDescriptionAddressDto.address,
             numberPhone: updateDescriptionAddressDto.numberPhone,
