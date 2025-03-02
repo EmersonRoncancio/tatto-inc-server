@@ -65,12 +65,16 @@ export class PostsTattooArtistService {
       .find({
         TattooArtist: new Types.ObjectId(id),
       })
+      .populate('TattooArtist')
       .select('-__v');
     return posts;
   }
 
   async getFindPostsTattooArtist() {
-    const posts = await this.postsTattooArtistModel.find().select('-__v');
+    const posts = await this.postsTattooArtistModel
+      .find()
+      .populate('TattooArtist')
+      .select('-__v');
     return posts;
   }
 
@@ -90,7 +94,6 @@ export class PostsTattooArtistService {
           },
           { new: true },
         );
-
       return postActualizado;
     }
 
