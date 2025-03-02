@@ -58,13 +58,11 @@ export class PostsTattooArtistController {
   }
 
   @Get('get-posts-tattoo-artist/:id')
-  @UseGuards(AuthGuard())
   getPostsTattooArtistById(@Param('id') id: string) {
     return this.postsTsttooArtistService.getPostsTattooArtistById(id);
   }
 
   @Get('get-find-posts')
-  @UseGuards(AuthGuard())
   getFindPostsTattooArtist() {
     return this.postsTsttooArtistService.getFindPostsTattooArtist();
   }
