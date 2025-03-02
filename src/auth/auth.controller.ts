@@ -45,7 +45,6 @@ export class AuthController {
   }
 
   @Get('get-find-tattoo-artist')
-  @UseGuards(AuthGuard())
   getFindTattooArtist() {
     return this.authService.getFindTattooArtist();
   }
