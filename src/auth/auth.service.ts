@@ -65,7 +65,6 @@ export class AuthService {
       ...createUserDto,
       password: bcrypt.hashSync(createUserDto.password, 8),
     });
-    console.log(user);
 
     const tokenVerification = this.JwtService.sign({ email: user.email });
 
@@ -76,7 +75,6 @@ export class AuthService {
   }
 
   async registerTattooArtist(createTattooArtistDto: CreateTattooArtistDto) {
-    console.log(createTattooArtistDto);
     await this.validateEmail(createTattooArtistDto.email);
 
     const tattooArtist = await this.tattooArtistModel.create({

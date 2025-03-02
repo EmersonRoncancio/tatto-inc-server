@@ -15,7 +15,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     @InjectModel(TattooArtist.name)
     private readonly tattooArtistModel: Model<TattooArtist>,
   ) {
-    console.log(envs.JWT_SECRET);
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,

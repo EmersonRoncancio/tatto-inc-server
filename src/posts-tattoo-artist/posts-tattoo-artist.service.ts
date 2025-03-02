@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { GetTattooArtistType } from './types/get-user.types';
+import { GetTattooArtistType, GetUserType } from './types/get-user.types';
 import { CreatePostsTattooArtistDto } from './dto/create-posts-tattoo-artist.dto';
 import { cloudinaryAdapter } from 'src/common/adapters/cloudinary.adapter';
 import { InjectModel } from '@nestjs/mongoose';
@@ -72,5 +72,51 @@ export class PostsTattooArtistService {
   async getFindPostsTattooArtist() {
     const posts = await this.postsTattooArtistModel.find().select('-__v');
     return posts;
+  }
+
+  async likePost(user: GetUserType, id: string) {
+    const post = await this.postsTattooArtistModel.findById(id);
+    if (!post) {
+      throw new BadRequestException('Post not found');
+    }
+
+    if (!post.likes.includes(user.user._id as string)) {
+      const postActualizado =
+        await this.postsTattooArtistModel.findByIdAndUpdate(
+          id,
+          {
+            $push: { likes: user.user._id as string },
+            $inc: { countLikes: 1 },
+          },
+          { new: true },
+        );
+
+      return postActualizado;
+    }
+
+    return post;
+  }
+
+  async unlikePost(user: GetUserType, id: string) {
+    const post = await this.postsTattooArtistModel.findById(id);
+    if (!post) {
+      throw new BadRequestException('Post not found');
+    }
+
+    if (post.likes.includes(user.user._id as string)) {
+      const postActualizado =
+        await this.postsTattooArtistModel.findByIdAndUpdate(
+          id,
+          {
+            $pull: { likes: user.user._id as string },
+            $inc: { countLikes: -1 },
+          },
+          { new: true },
+        );
+
+      return postActualizado;
+    }
+
+    return post;
   }
 }
