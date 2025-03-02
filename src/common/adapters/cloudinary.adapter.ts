@@ -20,6 +20,12 @@ export const cloudinaryAdapter = {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return cloudinary.uploader.destroy(publicId);
   },
+  deleteImages: async (publicIds: string[]) => {
+    const deletePromises = publicIds.map((publicId) =>
+      cloudinary.uploader.destroy(publicId),
+    );
+    return Promise.all(deletePromises);
+  },
   uploadImageOne: async (file: Express.Multer.File, folder: string) => {
     // Usar upload_stream para subir el archivo desde el buffer a una carpeta específica
     const result = await new Promise<UploadApiResponse>((resolve, reject) => {
@@ -41,7 +47,6 @@ export const cloudinaryAdapter = {
         },
       );
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       stream.end(file.buffer); // Enviar el archivo (buffer) a Cloudinary
     });
 
@@ -65,7 +70,7 @@ export const cloudinaryAdapter = {
             }
           },
         );
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+
         stream.end(file.buffer);
       });
     });

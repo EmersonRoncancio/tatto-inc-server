@@ -82,7 +82,7 @@ export class SettingsUsersService {
 
       const photo = await cloudinaryAdapter.uploadImageOne(
         profilePhoto,
-        user.user.name.replace(' ', '_'),
+        user.user._id as string,
       );
 
       const userPhoto = await this.userModel.findOneAndUpdate(
@@ -112,7 +112,7 @@ export class SettingsUsersService {
 
       const photo = await cloudinaryAdapter.uploadImageOne(
         profilePhoto,
-        user.tattooArtist.name.replace(' ', '_'),
+        user.tattooArtist._id as string,
       );
 
       const tattooArtistPhoto = await this.tattoArtistModel.findOneAndUpdate(
@@ -147,7 +147,7 @@ export class SettingsUsersService {
 
       const photo = await cloudinaryAdapter.uploadImageOne(
         backgroundPhoto,
-        user.user.name.replace(' ', '_'),
+        user.user._id as string,
       );
 
       const userBackgroundPhoto = await this.userModel
@@ -181,7 +181,7 @@ export class SettingsUsersService {
 
       const photo = await cloudinaryAdapter.uploadImageOne(
         backgroundPhoto,
-        user.tattooArtist.name.replace(' ', '_'),
+        user.tattooArtist._id as string,
       );
 
       const tattooArtistPhoto = await this.tattoArtistModel

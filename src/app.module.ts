@@ -4,6 +4,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { envs } from './configs/envs.configs';
 import { SettingsUsersModule } from './settings-users/settings-users.module';
 import { CommonModule } from './common/common.module';
+import { PostsTattooArtistModule } from './posts-tattoo-artist/posts-tattoo-artist.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { CommonModule } from './common/common.module';
     }),
     SettingsUsersModule,
     CommonModule,
+    PostsTattooArtistModule,
   ],
   controllers: [],
   providers: [],
