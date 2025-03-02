@@ -39,7 +39,6 @@ export class AuthController {
   }
 
   @Get('get-tattoo-artist/:id')
-  @UseGuards(AuthGuard())
   getTattooArtist(@Param('id') id: string) {
     return this.authService.getTattooArtist(id);
   }
