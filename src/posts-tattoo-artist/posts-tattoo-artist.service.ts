@@ -23,7 +23,6 @@ export class PostsTattooArtistService {
       getTattooArtist.tattooArtist.id as string,
     );
 
-    console.log(imagesPost);
     const CustomImages = imagesPost.map((image) => {
       return {
         public_id: image.public_id.replace('/', '&'),
@@ -59,5 +58,19 @@ export class PostsTattooArtistService {
     return {
       message: 'Post deleted',
     };
+  }
+
+  async getPostsTattooArtistById(id: string) {
+    const posts = await this.postsTattooArtistModel
+      .find({
+        TattooArtist: new Types.ObjectId(id),
+      })
+      .select('-__v');
+    return posts;
+  }
+
+  async getFindPostsTattooArtist() {
+    const posts = await this.postsTattooArtistModel.find().select('-__v');
+    return posts;
   }
 }

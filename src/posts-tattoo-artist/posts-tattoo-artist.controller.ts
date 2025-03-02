@@ -4,6 +4,7 @@ import {
   Controller,
   Delete,
   FileTypeValidator,
+  Get,
   Param,
   ParseFilePipe,
   Post,
@@ -42,8 +43,7 @@ export class PostsTattooArtistController {
     if (user.type === 'user') {
       throw new BadRequestException('User is not a tattoo artist');
     }
-    console.log(images);
-    console.log(descriptionDto);
+
     return this.postsTsttooArtistService.createPost(
       user,
       images,
@@ -55,5 +55,17 @@ export class PostsTattooArtistController {
   @UseGuards(AuthGuard())
   deletePost(@Param('id') id: string) {
     return this.postsTsttooArtistService.deletePost(id);
+  }
+
+  @Get('get-posts-tattoo-artist/:id')
+  @UseGuards(AuthGuard())
+  getPostsTattooArtistById(@Param('id') id: string) {
+    return this.postsTsttooArtistService.getPostsTattooArtistById(id);
+  }
+
+  @Get('get-find-posts')
+  @UseGuards(AuthGuard())
+  getFindPostsTattooArtist() {
+    return this.postsTsttooArtistService.getFindPostsTattooArtist();
   }
 }
