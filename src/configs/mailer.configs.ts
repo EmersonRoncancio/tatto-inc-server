@@ -32,7 +32,7 @@ export class MailService {
             Gracias por registrarte en <strong>TattooInc</strong>. Para activar tu cuenta y empezar a disfrutar de nuestros servicios, verifica tu correo electrónico haciendo clic en el siguiente botón:
           </p>
           <p style="text-align: center;">
-            <a href="https://tattoinc.vercel.app//validate-email/${token}" 
+            <a href="https://tattoink.vercel.app/validate-email/${token}" 
                style="display: inline-block; padding: 12px 24px; font-size: 16px; color: white; background-color: #008CBA; text-decoration: none; border-radius: 5px;">
                Verificar Email
             </a>
@@ -40,7 +40,7 @@ export class MailService {
           <p style="color: #555;">
             Si no puedes hacer clic en el botón, copia y pega la siguiente URL en tu navegador:
             <br>
-            <a href="https://tattoinc.vercel.app//validate-email/${token}" style="color: #008CBA;">https://tattoinc.vercel.app//validate-email/${token}</a>
+            <a href="https://tattoink.vercel.app/validate-email/${token}" style="color: #008CBA;">https://tattoink.vercel.app/validate-email/${token}</a>
           </p>
           <hr style="border: 0; height: 1px; background: #ddd; margin: 20px 0;">
           <p style="color: #777; font-size: 12px;">

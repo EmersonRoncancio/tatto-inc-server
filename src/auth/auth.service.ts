@@ -167,7 +167,13 @@ export class AuthService {
   }
 
   async getTattooArtist(id: string) {
-    return await this.tattooArtistModel.findById(id).select('-password');
+    const artis = await this.tattooArtistModel.findById(id).select('-password');
+
+    if (!artis) {
+      throw new BadRequestException('Tattoo artist not found');
+    }
+
+    return artis;
   }
 
   async getFindTattooArtist() {
