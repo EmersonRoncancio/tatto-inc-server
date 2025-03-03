@@ -67,6 +67,10 @@ export class PostsTattooArtistService {
       })
       .populate('TattooArtist')
       .select('-__v');
+    if (posts.length <= 0) {
+      throw new BadRequestException('Posts not found');
+    }
+
     return posts;
   }
 
@@ -118,6 +122,18 @@ export class PostsTattooArtistService {
         );
 
       return postActualizado;
+    }
+
+    return post;
+  }
+
+  async getPostsById(id: string) {
+    const post = await this.postsTattooArtistModel
+      .findById(id)
+      .populate('TattooArtist');
+
+    if (!post) {
+      throw new BadRequestException('Post not found');
     }
 
     return post;

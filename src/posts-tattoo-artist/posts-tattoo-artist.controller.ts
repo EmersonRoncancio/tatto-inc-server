@@ -67,6 +67,11 @@ export class PostsTattooArtistController {
     return this.postsTsttooArtistService.getFindPostsTattooArtist();
   }
 
+  @Get('get-posts-byid/:id')
+  getPostsById(@Param('id') id: string) {
+    return this.postsTsttooArtistService.getPostsById(id);
+  }
+
   @Post('like-post/:id')
   @UseGuards(AuthGuard())
   likePost(@GetUser() user: GetUserType, @Param('id') id: string) {
