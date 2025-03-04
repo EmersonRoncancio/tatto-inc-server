@@ -67,9 +67,6 @@ export class PostsTattooArtistService {
       })
       .populate('TattooArtist')
       .select('-__v');
-    if (posts.length <= 0) {
-      throw new BadRequestException('Posts not found');
-    }
 
     return posts;
   }

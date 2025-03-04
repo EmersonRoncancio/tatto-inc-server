@@ -11,6 +11,7 @@ import {
   TattooArtist,
   TattooArtistSchema,
 } from 'src/auth/entities/tattoo-artist.entity';
+import { User, UserSchema } from 'src/auth/entities/user.entity';
 
 @Module({
   controllers: [QualificationOfTattoArtistController],
@@ -25,6 +26,10 @@ import {
       {
         name: TattooArtist.name,
         schema: TattooArtistSchema,
+      },
+      {
+        name: User.name,
+        schema: UserSchema,
       },
     ]),
   ],

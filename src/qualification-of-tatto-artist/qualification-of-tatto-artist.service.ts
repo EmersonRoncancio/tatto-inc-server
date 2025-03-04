@@ -54,15 +54,20 @@ export class QualificationOfTattoArtistService {
       .find({
         tattooArtist: id,
       })
-      .select('-tattooArtist -user -__v');
+      .populate('user')
+      .populate('tattooArtist')
+      .select('-__v');
 
     const QualificationGlonal = califications.map((calification) => {
       return calification.qualification;
     });
 
-    const averageQualification =
-      QualificationGlonal.reduce((a, b) => a + b, 0) /
-      QualificationGlonal.length;
+    const averageQualification = parseFloat(
+      (
+        QualificationGlonal.reduce((a, b) => a + b, 0) /
+        QualificationGlonal.length
+      ).toFixed(1),
+    );
 
     return {
       Qualifications: califications,
@@ -90,7 +95,9 @@ export class QualificationOfTattoArtistService {
         },
         { new: true },
       )
-      .select('-tattooArtist -user -__v');
+      .populate('user')
+      .populate('tattooArtist')
+      .select('-__v');
 
     if (!updateQualification)
       throw new BadRequestException('Qualification not found');
