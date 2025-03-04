@@ -18,6 +18,7 @@ export class PostsTattooArtistService {
     images: Express.Multer.File[],
     descriptionDto: CreatePostsTattooArtistDto,
   ) {
+    console.log(getTattooArtist);
     const imagesPost = await cloudinaryAdapter.uploadImages(
       images,
       getTattooArtist.tattooArtist.id as string,
@@ -34,7 +35,7 @@ export class PostsTattooArtistService {
       TattooArtist: new Types.ObjectId(
         getTattooArtist.tattooArtist._id as string,
       ),
-      description: descriptionDto.descritpion,
+      description: descriptionDto.description,
       images: CustomImages,
     });
 
