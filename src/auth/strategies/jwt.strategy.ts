@@ -32,13 +32,13 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
     if (user)
       return {
-        user,
+        user: user,
         type: 'user',
       };
 
     if (tattooArtist)
       return {
-        tattooArtist,
+        user: tattooArtist,
         type: 'tattooArtist',
       };
   }
