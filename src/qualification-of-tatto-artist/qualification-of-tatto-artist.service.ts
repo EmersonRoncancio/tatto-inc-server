@@ -21,11 +21,15 @@ export class QualificationOfTattoArtistService {
     createQualificationDto: CreateQualificationOfTattoArtistDto,
     user: GetUserType,
   ) {
-    const tattooArtist = await this.qualificationOfTattoArtistModel.findOne({
-      tattooArtist: idTattooArtist,
-      user: user.user._id,
-    });
-    if (tattooArtist) {
+    const tattooArtist = await this.tattooArtistModel.findById(idTattooArtist);
+    if (!tattooArtist) throw new BadRequestException('Tattoo artist not found');
+
+    const qualificationValidate =
+      await this.qualificationOfTattoArtistModel.findOne({
+        tattooArtist: idTattooArtist,
+        user: user.user._id,
+      });
+    if (qualificationValidate) {
       throw new BadRequestException('User already qualified');
     }
 
@@ -87,6 +91,9 @@ export class QualificationOfTattoArtistService {
         { new: true },
       )
       .select('-tattooArtist -user -__v');
+
+    if (!updateQualification)
+      throw new BadRequestException('Qualification not found');
 
     return updateQualification;
   }
