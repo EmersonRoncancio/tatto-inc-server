@@ -13,7 +13,7 @@ export class QualificationOfTattoArtist extends Document {
 
   @Prop({
     type: String,
-    required: true,
+    required: false,
   })
   comment: string;
 
