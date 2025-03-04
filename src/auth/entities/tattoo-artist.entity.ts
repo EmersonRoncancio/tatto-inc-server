@@ -107,6 +107,11 @@ export class TattooArtist extends Document {
     default: false,
   })
   isVerified: boolean;
+
+  @Prop({
+    type: String,
+  })
+  schedule: string;
 }
 
 export const TattooArtistSchema = SchemaFactory.createForClass(TattooArtist);

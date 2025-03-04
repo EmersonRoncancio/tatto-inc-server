@@ -1,6 +1,6 @@
 import { IsOptional, IsString } from 'class-validator';
 
-export class UpdateDescriptionAddressDto {
+export class UpdateTattooArtistDto {
   @IsString()
   @IsOptional()
   name: string;
@@ -24,4 +24,8 @@ export class UpdateDescriptionAddressDto {
   @IsString()
   @IsOptional()
   numberPhone: string;
+
+  @IsString()
+  @IsOptional()
+  schedule: string;
 }

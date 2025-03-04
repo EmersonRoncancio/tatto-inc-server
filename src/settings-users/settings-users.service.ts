@@ -4,9 +4,10 @@ import { InjectModel } from '@nestjs/mongoose';
 import { TattooArtist } from 'src/auth/entities/tattoo-artist.entity';
 import { Model, Types } from 'mongoose';
 import { SocialNetworksDto } from './dto/create-settings-user.dto';
-import { UpdateDescriptionAddressDto } from './dto/update-description-address-dto';
+import { UpdateTattooArtistDto } from './dto/update-description-address-dto';
 import { cloudinaryAdapter } from 'src/common/adapters/cloudinary.adapter';
 import { User } from 'src/auth/entities/user.entity';
+import { UpdateSettingsUserDto } from './dto/update-settings-user.dto';
 
 @Injectable()
 export class SettingsUsersService {
@@ -42,7 +43,7 @@ export class SettingsUsersService {
 
   async updateDescriptionAddress(
     getTattooArtistType: GetTattooArtistType,
-    updateDescriptionAddressDto: UpdateDescriptionAddressDto,
+    updateUpdateTattooArtistDto: UpdateTattooArtistDto,
   ) {
     const tattooArtistSocialNetworks =
       await this.tattoArtistModel.findOneAndUpdate(
@@ -51,12 +52,13 @@ export class SettingsUsersService {
         },
         {
           $set: {
-            name: updateDescriptionAddressDto.name,
-            experience: updateDescriptionAddressDto.experience,
-            specialty: updateDescriptionAddressDto.specialty,
-            description: updateDescriptionAddressDto.description,
-            address: updateDescriptionAddressDto.address,
-            numberPhone: updateDescriptionAddressDto.numberPhone,
+            name: updateUpdateTattooArtistDto.name,
+            experience: updateUpdateTattooArtistDto.experience,
+            specialty: updateUpdateTattooArtistDto.specialty,
+            description: updateUpdateTattooArtistDto.description,
+            address: updateUpdateTattooArtistDto.address,
+            numberPhone: updateUpdateTattooArtistDto.numberPhone,
+            schedule: updateUpdateTattooArtistDto.schedule,
           },
         },
         { new: true },
@@ -199,5 +201,24 @@ export class SettingsUsersService {
 
       return tattooArtistPhoto;
     }
+  }
+
+  async updateUser(
+    user: GetUserType,
+    updateSettingsUserDto: UpdateSettingsUserDto,
+  ) {
+    console.log(user.user._id);
+    const userUpdated = await this.userModel.findOneAndUpdate(
+      { _id: user.user._id as string },
+      {
+        $set: {
+          name: updateSettingsUserDto?.name,
+        },
+      },
+      { new: true },
+    );
+    console.log(userUpdated);
+
+    return userUpdated;
   }
 }

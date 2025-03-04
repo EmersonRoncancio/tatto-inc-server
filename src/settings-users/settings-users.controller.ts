@@ -15,8 +15,9 @@ import { AuthGuard } from '@nestjs/passport';
 import { GetUser } from 'src/auth/decorators/getUser.decorator';
 import { GetTattooArtistType, GetUserType } from './types/get-user.types';
 import { SocialNetworksDto } from './dto/create-settings-user.dto';
-import { UpdateDescriptionAddressDto } from './dto/update-description-address-dto';
+import { UpdateTattooArtistDto } from './dto/update-description-address-dto';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { UpdateSettingsUserDto } from './dto/update-settings-user.dto';
 
 @Controller('settings-users')
 export class SettingsUsersController {
@@ -38,7 +39,7 @@ export class SettingsUsersController {
   @UseGuards(AuthGuard())
   updateDescriptionAddress(
     @GetUser() user: GetUserType | GetTattooArtistType,
-    @Body() updateDescriptionAddressDto: UpdateDescriptionAddressDto,
+    @Body() updateDescriptionAddressDto: UpdateTattooArtistDto,
   ) {
     if (user.type === 'user') {
       throw new BadRequestException(
@@ -86,5 +87,18 @@ export class SettingsUsersController {
       backgroundPhoto,
       user,
     );
+  }
+
+  @Post('update-user')
+  @UseGuards(AuthGuard())
+  updateUser(
+    @GetUser() user: GetUserType | GetTattooArtistType,
+    @Body() updateUserDto: UpdateSettingsUserDto,
+  ) {
+    console.log(user);
+    if (user.type === 'tattooArtist')
+      throw new BadRequestException('Tattoo artist cannot update user');
+
+    return this.settingsUsersService.updateUser(user, updateUserDto);
   }
 }

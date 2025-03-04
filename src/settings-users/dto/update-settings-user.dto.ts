@@ -1,4 +1,6 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { SocialNetworksDto } from './create-settings-user.dto';
+import { IsString } from 'class-validator';
 
-export class UpdateSettingsUserDto extends PartialType(SocialNetworksDto) {}
+export class UpdateSettingsUserDto {
+  @IsString()
+  name: string;
+}
