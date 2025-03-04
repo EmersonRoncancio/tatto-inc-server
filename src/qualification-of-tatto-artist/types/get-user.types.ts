@@ -7,6 +7,6 @@ export interface GetUserType {
 }
 
 export interface GetTattooArtistType {
-  tattooArtist: TattooArtist;
+  user: TattooArtist;
   type: 'tattooArtist';
 }

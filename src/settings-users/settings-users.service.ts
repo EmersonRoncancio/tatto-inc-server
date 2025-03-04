@@ -24,9 +24,7 @@ export class SettingsUsersService {
     const tattooArtistSocialNetworks =
       await this.tattoArtistModel.findOneAndUpdate(
         {
-          _id: new Types.ObjectId(
-            getTattooArtistType.tattooArtist._id as string,
-          ),
+          _id: new Types.ObjectId(getTattooArtistType.user._id as string),
         },
         {
           $set: Object.fromEntries(
@@ -49,9 +47,7 @@ export class SettingsUsersService {
     const tattooArtistSocialNetworks =
       await this.tattoArtistModel.findOneAndUpdate(
         {
-          _id: new Types.ObjectId(
-            getTattooArtistType.tattooArtist._id as string,
-          ),
+          _id: new Types.ObjectId(getTattooArtistType.user._id as string),
         },
         {
           $set: {
@@ -104,20 +100,20 @@ export class SettingsUsersService {
     }
 
     if (user.type === 'tattooArtist') {
-      if (user.tattooArtist?.photoPerfil) {
+      if (user.user?.photoPerfil) {
         await cloudinaryAdapter.deleteImage(
-          user.tattooArtist.photoPerfil.public_id.replace('&', '/'),
+          user.user.photoPerfil.public_id.replace('&', '/'),
         );
       }
 
       const photo = await cloudinaryAdapter.uploadImageOne(
         profilePhoto,
-        user.tattooArtist._id as string,
+        user.user._id as string,
       );
 
       const tattooArtistPhoto = await this.tattoArtistModel.findOneAndUpdate(
         {
-          _id: new Types.ObjectId(user.tattooArtist._id as string),
+          _id: new Types.ObjectId(user.user._id as string),
         },
         {
           $set: {
@@ -173,21 +169,21 @@ export class SettingsUsersService {
     }
 
     if (user.type === 'tattooArtist') {
-      if (user.tattooArtist?.photoBackground) {
+      if (user.user?.photoBackground) {
         await cloudinaryAdapter.deleteImage(
-          user.tattooArtist.photoBackground.public_id.replace('&', '/'),
+          user.user.photoBackground.public_id.replace('&', '/'),
         );
       }
 
       const photo = await cloudinaryAdapter.uploadImageOne(
         backgroundPhoto,
-        user.tattooArtist._id as string,
+        user.user._id as string,
       );
 
       const tattooArtistPhoto = await this.tattoArtistModel
         .findOneAndUpdate(
           {
-            _id: new Types.ObjectId(user.tattooArtist._id as string),
+            _id: new Types.ObjectId(user.user._id as string),
           },
           {
             $set: {
