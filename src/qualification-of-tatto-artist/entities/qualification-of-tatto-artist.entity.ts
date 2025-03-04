@@ -15,7 +15,7 @@ export class QualificationOfTattoArtist extends Document {
     type: String,
     required: true,
   })
-  comments: string;
+  comment: string;
 
   @Prop({
     required: true,
@@ -34,9 +34,4 @@ export class QualificationOfTattoArtist extends Document {
 
 export const QualificationOfTattoArtistSchema = SchemaFactory.createForClass(
   QualificationOfTattoArtist,
-);
-
-QualificationOfTattoArtistSchema.index(
-  { user: 1, tattooArtist: 1 },
-  { unique: true },
 );
