@@ -8,7 +8,7 @@ import { Admin } from '../entities/auth-admin.entity';
 import { payload } from '../types/payload.types';
 
 @Injectable()
-export class JwtStrategy extends PassportStrategy(Strategy) {
+export class JwtStrategy extends PassportStrategy(Strategy, 'jwt-admin') {
   constructor(
     @InjectModel(Admin.name) private readonly adminModel: Model<Admin>,
   ) {

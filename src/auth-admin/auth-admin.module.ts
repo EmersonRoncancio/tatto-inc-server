@@ -12,7 +12,7 @@ import { JwtStrategy } from './strategies/auth-admin.strategy';
   controllers: [AuthAdminController],
   providers: [AuthAdminService, JwtStrategy],
   imports: [
-    PassportModule.register({ defaultStrategy: 'jwt' }),
+    PassportModule.register({ defaultStrategy: 'jwt-admin' }),
     JwtModule.register({
       secret: envs.JWT_SECRET,
       signOptions: { expiresIn: '6h' },
