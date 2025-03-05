@@ -89,7 +89,7 @@ export class SettingsUsersController {
     );
   }
 
-  @Post('update-user')
+  @Patch('update-user')
   @UseGuards(AuthGuard())
   updateUser(
     @GetUser() user: GetUserType | GetTattooArtistType,

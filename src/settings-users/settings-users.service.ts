@@ -207,7 +207,6 @@ export class SettingsUsersService {
     user: GetUserType,
     updateSettingsUserDto: UpdateSettingsUserDto,
   ) {
-    console.log(user.user._id);
     const userUpdated = await this.userModel.findOneAndUpdate(
       { _id: user.user._id as string },
       {
