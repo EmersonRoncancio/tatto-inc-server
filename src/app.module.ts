@@ -6,6 +6,7 @@ import { SettingsUsersModule } from './settings-users/settings-users.module';
 import { CommonModule } from './common/common.module';
 import { PostsTattooArtistModule } from './posts-tattoo-artist/posts-tattoo-artist.module';
 import { QualificationOfTattoArtistModule } from './qualification-of-tatto-artist/qualification-of-tatto-artist.module';
+import { AuthAdminModule } from './auth-admin/auth-admin.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { QualificationOfTattoArtistModule } from './qualification-of-tatto-artis
     CommonModule,
     PostsTattooArtistModule,
     QualificationOfTattoArtistModule,
+    AuthAdminModule,
   ],
   controllers: [],
   providers: [],
