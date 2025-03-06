@@ -95,7 +95,6 @@ export class SettingsUsersController {
     @GetUser() user: GetUserType | GetTattooArtistType,
     @Body() updateUserDto: UpdateSettingsUserDto,
   ) {
-    console.log(user);
     if (user.type === 'tattooArtist')
       throw new BadRequestException('Tattoo artist cannot update user');
 
