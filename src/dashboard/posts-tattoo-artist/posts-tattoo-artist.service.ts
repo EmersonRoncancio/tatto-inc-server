@@ -1,17 +1,17 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
+import { TattooArtist } from 'src/auth/entities/tattoo-artist.entity';
 import { cloudinaryAdapter } from 'src/common/adapters/cloudinary.adapter';
 import { PostsTattooArtist } from 'src/posts-tattoo-artist/entities/posts-tattoo-artist.entity';
-import { QualificationOfTattoArtist } from 'src/qualification-of-tatto-artist/entities/qualification-of-tatto-artist.entity';
 
 @Injectable()
 export class PostsTattooArtistService {
   constructor(
     @InjectModel(PostsTattooArtist.name)
     private readonly postsTattooArtistModel: Model<PostsTattooArtist>,
-    @InjectModel(QualificationOfTattoArtist.name)
-    private readonly qualificationOfTattoArtistModel: Model<QualificationOfTattoArtist>,
+    @InjectModel(TattooArtist.name)
+    private readonly tattooArtistModel: Model<TattooArtist>,
   ) {}
 
   async deletePost(id: string) {
@@ -36,6 +36,12 @@ export class PostsTattooArtistService {
   }
 
   async getPostById(id: string) {
+    const validateArtist = await this.tattooArtistModel.findById(id);
+
+    if (!validateArtist) {
+      throw new BadRequestException('Artist not found');
+    }
+
     const post = await this.postsTattooArtistModel
       .find({
         TattooArtist: new Types.ObjectId(id),

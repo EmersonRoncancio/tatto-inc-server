@@ -1,5 +1,5 @@
 import { Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
-import { UsersAndArtisService } from './users-and-artis.service';
+import { UsersAndArtisService } from './users-and-artist.service';
 import { AuthGuard } from '@nestjs/passport';
 
 @Controller('users-and-artist')

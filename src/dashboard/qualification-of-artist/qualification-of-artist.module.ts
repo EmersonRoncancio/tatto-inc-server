@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { UsersAndArtisService } from './users-and-artis.service';
-import { UsersAndArtisController } from './users-and-artis.controller';
-import { User, UserSchema } from 'src/auth/entities/user.entity';
+import { QualificationOfArtistService } from './qualification-of-artist.service';
+import { QualificationOfArtistController } from './qualification-of-artist.controller';
 import { MongooseModule } from '@nestjs/mongoose';
+import { User, UserSchema } from 'src/auth/entities/user.entity';
 import {
   TattooArtist,
   TattooArtistSchema,
@@ -18,8 +18,8 @@ import {
 import { AuthAdminModule } from 'src/auth-admin/auth-admin.module';
 
 @Module({
-  controllers: [UsersAndArtisController],
-  providers: [UsersAndArtisService],
+  controllers: [QualificationOfArtistController],
+  providers: [QualificationOfArtistService],
   imports: [
     MongooseModule.forFeature([
       {
@@ -42,4 +42,4 @@ import { AuthAdminModule } from 'src/auth-admin/auth-admin.module';
     AuthAdminModule,
   ],
 })
-export class UsersAndArtisModule {}
+export class QualificationOfArtistModuleAdmin {}

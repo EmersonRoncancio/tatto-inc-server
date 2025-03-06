@@ -7,8 +7,9 @@ import { CommonModule } from './common/common.module';
 import { PostsTattooArtistModule } from './posts-tattoo-artist/posts-tattoo-artist.module';
 import { QualificationOfTattoArtistModule } from './qualification-of-tatto-artist/qualification-of-tatto-artist.module';
 import { AuthAdminModule } from './auth-admin/auth-admin.module';
-import { UsersAndArtisModule } from './dashboard/users-and-artis/users-and-artis.module';
+import { UsersAndArtisModule } from './dashboard/users-and-artist/users-and-artist.module';
 import { PostsTattooArtistModuleAdin } from './dashboard/posts-tattoo-artist/posts-tattoo-artist.module';
+import { QualificationOfArtistModuleAdmin } from './dashboard/qualification-of-artist/qualification-of-artist.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { PostsTattooArtistModuleAdin } from './dashboard/posts-tattoo-artist/pos
     AuthAdminModule,
     UsersAndArtisModule,
     PostsTattooArtistModuleAdin,
+    QualificationOfArtistModuleAdmin,
   ],
   controllers: [],
   providers: [],
