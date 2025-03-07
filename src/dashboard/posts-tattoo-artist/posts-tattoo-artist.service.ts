@@ -54,6 +54,9 @@ export class PostsTattooArtistService {
       .populate('TattooArtist')
       .select('-__v');
 
-    return post;
+    return {
+      tattooArtist: validateArtist,
+      posts: post,
+    };
   }
 }

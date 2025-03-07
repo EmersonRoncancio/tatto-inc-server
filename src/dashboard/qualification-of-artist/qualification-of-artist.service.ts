@@ -36,7 +36,10 @@ export class QualificationOfArtistService {
       .populate('tattooArtist')
       .populate('user');
 
-    return qualification;
+    return {
+      tattooArtist: validateArtist,
+      qualifications: qualification,
+    };
   }
 
   async getQualificationForUser(id: string) {
@@ -49,7 +52,10 @@ export class QualificationOfArtistService {
       .populate('tattooArtist')
       .populate('user');
 
-    return qualification;
+    return {
+      user: validateUser,
+      qualifications: qualification,
+    };
   }
 
   async deleteQualification(id: string) {
