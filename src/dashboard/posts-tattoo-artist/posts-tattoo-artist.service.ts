@@ -28,7 +28,7 @@ export class PostsTattooArtistService {
 
     await this.postsTattooArtistModel
       .findByIdAndDelete(id)
-      .populate('tattooArtist');
+      .populate('TattooArtist');
 
     return { message: 'Post deleted' };
   }
@@ -36,7 +36,7 @@ export class PostsTattooArtistService {
   async getPostsArtists() {
     return await this.postsTattooArtistModel
       .find()
-      .populate('tattooArtist')
+      .populate('TattooArtist')
       .select('-__v');
   }
 
@@ -51,7 +51,7 @@ export class PostsTattooArtistService {
       .find({
         TattooArtist: new Types.ObjectId(id),
       })
-      .populate('tattooArtist')
+      .populate('TattooArtist')
       .select('-__v');
 
     return post;

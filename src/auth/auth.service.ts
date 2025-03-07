@@ -142,7 +142,6 @@ export class AuthService {
   }
 
   async login(logindto: LoginDto) {
-    console.log(logindto);
     const user = await this.validateUsersOrTattooArtist(logindto.email);
 
     if (user === false) {
@@ -188,16 +187,27 @@ export class AuthService {
   }
 
   async getTattooArtist(id: string) {
-    const artis = await this.tattooArtistModel.findById(id).select('-password');
+    const artis = await this.tattooArtistModel
+      .findOne({
+        _id: id,
+        isVerified: true,
+        authorizedArtist: true,
+      })
+      .select('-password');
 
     if (!artis) {
-      throw new BadRequestException('Tattoo artist not found');
+      throw new BadRequestException('Tattoo artist not found or not verified');
     }
 
     return artis;
   }
 
   async getFindTattooArtist() {
-    return await this.tattooArtistModel.find().select('-password');
+    return await this.tattooArtistModel
+      .find({
+        isVerified: true,
+        authorizedArtist: true,
+      })
+      .select('-password');
   }
 }

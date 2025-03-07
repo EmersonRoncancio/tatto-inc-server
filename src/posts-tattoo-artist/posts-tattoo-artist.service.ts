@@ -5,12 +5,15 @@ import { cloudinaryAdapter } from 'src/common/adapters/cloudinary.adapter';
 import { InjectModel } from '@nestjs/mongoose';
 import { PostsTattooArtist } from './entities/posts-tattoo-artist.entity';
 import { Model, Types } from 'mongoose';
+import { TattooArtist } from 'src/auth/entities/tattoo-artist.entity';
 
 @Injectable()
 export class PostsTattooArtistService {
   constructor(
     @InjectModel(PostsTattooArtist.name)
     private readonly postsTattooArtistModel: Model<PostsTattooArtist>,
+    @InjectModel(TattooArtist.name)
+    private readonly tattooArtistModel: Model<TattooArtist>,
   ) {}
 
   async createPost(
@@ -59,6 +62,14 @@ export class PostsTattooArtistService {
   }
 
   async getPostsTattooArtistById(id: string) {
+    const tattooArtist = await this.tattooArtistModel.findById(id);
+    if (!tattooArtist) {
+      throw new BadRequestException('Tattoo artist not found');
+    }
+
+    if (tattooArtist.authorizedArtist === false)
+      throw new BadRequestException('Tattoo artist not authorized');
+
     const posts = await this.postsTattooArtistModel
       .find({
         TattooArtist: new Types.ObjectId(id),
@@ -74,6 +85,7 @@ export class PostsTattooArtistService {
       .find()
       .populate('TattooArtist')
       .select('-__v');
+
     return posts;
   }
 
