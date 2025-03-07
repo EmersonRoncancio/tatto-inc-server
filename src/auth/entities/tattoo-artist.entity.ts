@@ -19,11 +19,13 @@ export class imagesProfileandBackground {
 class SocialNetworks extends Document {
   @Prop({
     type: String,
+    required: true,
   })
   instagram: string;
 
   @Prop({
     type: String,
+    required: true,
   })
   facebook: string;
 
@@ -89,11 +91,13 @@ export class TattooArtist extends Document {
 
   @Prop({
     type: String,
+    required: true,
   })
   address: string;
 
   @Prop({
     type: String,
+    required: true,
   })
   description: string;
 
@@ -112,6 +116,12 @@ export class TattooArtist extends Document {
     type: String,
   })
   schedule: string;
+
+  @Prop({
+    type: Boolean,
+    default: false,
+  })
+  authorizedArtist: boolean;
 }
 
 export const TattooArtistSchema = SchemaFactory.createForClass(TattooArtist);

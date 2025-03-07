@@ -26,13 +26,18 @@ export class PostsTattooArtistService {
 
     await cloudinaryAdapter.deleteImages(publics_id);
 
-    await this.postsTattooArtistModel.findByIdAndDelete(id);
+    await this.postsTattooArtistModel
+      .findByIdAndDelete(id)
+      .populate('tattooArtist');
 
     return { message: 'Post deleted' };
   }
 
   async getPostsArtists() {
-    return await this.postsTattooArtistModel.find().select('-__v');
+    return await this.postsTattooArtistModel
+      .find()
+      .populate('tattooArtist')
+      .select('-__v');
   }
 
   async getPostById(id: string) {
@@ -46,6 +51,7 @@ export class PostsTattooArtistService {
       .find({
         TattooArtist: new Types.ObjectId(id),
       })
+      .populate('tattooArtist')
       .select('-__v');
 
     return post;

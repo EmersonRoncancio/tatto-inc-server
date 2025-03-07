@@ -1,4 +1,9 @@
-import { BadRequestException, Injectable, Logger } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  Logger,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { CreateTattooArtistDto } from './dto/create-tattoo-artis.dto';
 import { InjectModel } from '@nestjs/mongoose';
@@ -78,8 +83,17 @@ export class AuthService {
     await this.validateEmail(createTattooArtistDto.email);
 
     const tattooArtist = await this.tattooArtistModel.create({
-      ...createTattooArtistDto,
+      name: createTattooArtistDto.name,
+      specialty: createTattooArtistDto.specialty,
+      experience: createTattooArtistDto.experience,
+      email: createTattooArtistDto.email,
       password: bcrypt.hashSync(createTattooArtistDto.password, 8),
+      address: createTattooArtistDto.address,
+      description: createTattooArtistDto.description,
+      socialNetworks: {
+        instagram: createTattooArtistDto.instagram,
+        facebook: createTattooArtistDto.facebook,
+      },
     });
 
     const tokenVerification = this.JwtService.sign({
@@ -87,7 +101,10 @@ export class AuthService {
     });
 
     const Mai = new MailService();
-    const email = await Mai.sendMail(tattooArtist, tokenVerification);
+    const email = await Mai.sendMailTattoArtist(
+      tattooArtist,
+      tokenVerification,
+    );
 
     return { tattooArtist, email };
   }
@@ -125,6 +142,7 @@ export class AuthService {
   }
 
   async login(logindto: LoginDto) {
+    console.log(logindto);
     const user = await this.validateUsersOrTattooArtist(logindto.email);
 
     if (user === false) {
@@ -159,6 +177,9 @@ export class AuthService {
       if (!user.tattooArtist?.isVerified) {
         throw new BadRequestException('Email not verified');
       }
+
+      if (user.tattooArtist?.authorizedArtist === false)
+        throw new UnauthorizedException('Unauthorized artist');
 
       return {
         token: this.JwtService.sign({ email: user.tattooArtist.email }),

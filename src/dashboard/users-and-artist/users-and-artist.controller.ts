@@ -29,4 +29,10 @@ export class UsersAndArtisController {
   getArtists() {
     return this.usersAndArtisService.getArtists();
   }
+
+  @Get('get-artists-inauthorized')
+  @UseGuards(AuthGuard())
+  getArtistsInauthorized() {
+    return this.usersAndArtisService.getArtistsInauthorized();
+  }
 }

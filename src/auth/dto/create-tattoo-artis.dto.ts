@@ -1,10 +1,4 @@
-import {
-  IsEmail,
-  IsOptional,
-  IsString,
-  MaxLength,
-  MinLength,
-} from 'class-validator';
+import { IsEmail, IsString, MaxLength, MinLength } from 'class-validator';
 
 export class CreateTattooArtistDto {
   @IsString()
@@ -30,11 +24,17 @@ export class CreateTattooArtistDto {
 
   @IsString()
   @MinLength(3)
-  @IsOptional()
   address: string;
 
   @IsString()
   @MinLength(3)
-  @IsOptional()
   description: string;
+
+  @IsString()
+  @MinLength(3)
+  instagram: string;
+
+  @IsString()
+  @MinLength(3)
+  facebook: string;
 }

@@ -216,7 +216,6 @@ export class SettingsUsersService {
       },
       { new: true },
     );
-    console.log(userUpdated);
 
     return userUpdated;
   }

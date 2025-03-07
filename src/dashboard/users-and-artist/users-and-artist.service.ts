@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { TattooArtist } from 'src/auth/entities/tattoo-artist.entity';
 import { User } from 'src/auth/entities/user.entity';
+import { MailService } from 'src/configs/mailer.configs';
 
 @Injectable()
 export class UsersAndArtisService {
@@ -30,6 +31,11 @@ export class UsersAndArtisService {
       { new: true },
     );
 
+    if (user?.isVerified === true) {
+      const mail = new MailService();
+      await mail.sendMailDisable(user);
+    }
+
     return user;
   }
 
@@ -48,10 +54,18 @@ export class UsersAndArtisService {
         _id: id,
       },
       {
-        isVerified: !tattooArtistValidate.isVerified,
+        authorizedArtist: !tattooArtistValidate.authorizedArtist,
       },
       { new: true },
     );
+
+    const mail = new MailService();
+
+    if (tattooArtist?.authorizedArtist === true) {
+      await mail.senMailapprovedArtist(tattooArtist);
+    } else {
+      if (tattooArtist) await mail.sendMailDisable(tattooArtist);
+    }
 
     return tattooArtist;
   }
@@ -62,5 +76,9 @@ export class UsersAndArtisService {
 
   async getArtists() {
     return await this.tattooArtistModel.find();
+  }
+
+  getArtistsInauthorized() {
+    return this.tattooArtistModel.find({ authorizedArtist: false });
   }
 }
