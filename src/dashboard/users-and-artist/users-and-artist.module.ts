@@ -16,6 +16,10 @@ import {
   QualificationOfTattoArtistSchema,
 } from 'src/qualification-of-tatto-artist/entities/qualification-of-tatto-artist.entity';
 import { AuthAdminModule } from 'src/auth-admin/auth-admin.module';
+import {
+  Admin,
+  AuthAdminSchema,
+} from 'src/auth-admin/entities/auth-admin.entity';
 
 @Module({
   controllers: [UsersAndArtisController],
@@ -37,6 +41,10 @@ import { AuthAdminModule } from 'src/auth-admin/auth-admin.module';
       {
         name: QualificationOfTattoArtist.name,
         schema: QualificationOfTattoArtistSchema,
+      },
+      {
+        name: Admin.name,
+        schema: AuthAdminSchema,
       },
     ]),
     AuthAdminModule,

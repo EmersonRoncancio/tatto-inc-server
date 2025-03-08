@@ -35,4 +35,10 @@ export class UsersAndArtisController {
   getArtistsInauthorized() {
     return this.usersAndArtisService.getArtistsInauthorized();
   }
+
+  @Get('get-length-data')
+  @UseGuards(AuthGuard())
+  getLengthData() {
+    return this.usersAndArtisService.getLengthData();
+  }
 }
