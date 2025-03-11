@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Param,
+  Post,
   UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
@@ -16,7 +17,7 @@ import { GetTattooArtistType, GetUserType } from './types/get-user.type';
 export class AppointmentController {
   constructor(private readonly appointmentService: AppointmentService) {}
 
-  @Get('shedule/:id')
+  @Post('shedule/:id')
   @UseGuards(AuthGuard())
   scheduleAppointment(
     @Param('id') id: string,
