@@ -72,7 +72,7 @@ export class ChatBot {
             properties: {
               date: {
                 description:
-                  "The date of the appointment in YYYY-MM-DD HH:mm:ss format or 'date not found' if not found. If the user does not specify a time, keep 'date': 'date not found'",
+                  "The date of the appointment in YYYY-MM-DD HH:mm:ss format or 'date not found' if not found. If the user does not specify a time or if the provided time is within the next two hours, keep 'date': 'date not found'.",
                 type: 'string',
                 format: 'date',
               },
