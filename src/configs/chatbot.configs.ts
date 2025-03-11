@@ -44,6 +44,7 @@ export class ChatBot {
       - **No reinicies la conversación a menos que sea estrictamente necesario**.  
       - **Si la conversación ya registra una cita agendada, no modifiques la fecha y hora**.  
       - Continúa guiando al usuario hasta que haya proporcionado **una fecha y hora definitivas**.  
+      - RECUERDA QUE SI HAY UNA CITA AGENDADA, LAS SIGUIENTES CITAS DEBEN SER DOS HORAS DESPUÉS DE LA ANTERIOR.
 
       ¡Tu objetivo es asegurarte de que el usuario pueda concretar su cita de manera eficiente!  
     `;

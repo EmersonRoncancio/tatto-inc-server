@@ -30,7 +30,7 @@ export class AppointmentService {
       throw new Error('Tattoo artist not found');
     }
     const appointments = await this.appointmentModel.find({
-      idArtist: idTattoArtist,
+      idArtist: new Types.ObjectId(idTattoArtist),
     });
     const conversationFlow = await this.conversationFlowModel.findOne({
       tattooArtist: new Types.ObjectId(idTattoArtist),
