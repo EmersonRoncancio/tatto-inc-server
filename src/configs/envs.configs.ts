@@ -12,6 +12,7 @@ const envVarsSchema = joi
     CLOUDINARY_NAME: joi.string().required(),
     CLOUDINARY_API_KEY: joi.string().required(),
     CLOUDINARY_API_SECRET: joi.string().required(),
+    OPENIA_API_KEY: joi.string().required(),
   })
   .unknown(true);
 
@@ -32,6 +33,7 @@ interface Env {
   CLOUDINARY_NAME: string;
   CLOUDINARY_API_KEY: string;
   CLOUDINARY_API_SECRET: string;
+  OPENIA_API_KEY: string;
 }
 
 const env: Env = value as Env;
@@ -46,4 +48,5 @@ export const envs = {
   CLOUDINARY_NAME: env?.CLOUDINARY_NAME,
   CLOUDINARY_API_KEY: env?.CLOUDINARY_API_KEY,
   CLOUDINARY_API_SECRET: env?.CLOUDINARY_API_SECRET,
+  OPENIA_API_KEY: env?.OPENIA_API_KEY,
 };

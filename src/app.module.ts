@@ -10,6 +10,7 @@ import { AuthAdminModule } from './auth-admin/auth-admin.module';
 import { UsersAndArtisModule } from './dashboard/users-and-artist/users-and-artist.module';
 import { PostsTattooArtistModuleAdin } from './dashboard/posts-tattoo-artist/posts-tattoo-artist.module';
 import { QualificationOfArtistModuleAdmin } from './dashboard/qualification-of-artist/qualification-of-artist.module';
+import { AppointmentModule } from './appointment/appointment.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { QualificationOfArtistModuleAdmin } from './dashboard/qualification-of-a
     UsersAndArtisModule,
     PostsTattooArtistModuleAdin,
     QualificationOfArtistModuleAdmin,
+    AppointmentModule,
   ],
   controllers: [],
   providers: [],
