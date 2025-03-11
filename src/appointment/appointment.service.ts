@@ -7,7 +7,7 @@ import { Model, Types } from 'mongoose';
 import { TattooArtist } from 'src/auth/entities/tattoo-artist.entity';
 import { ConversationFlow } from './entities/conversationFlow.entity';
 import { AppointmentResponse } from './types/appointment.type';
-import { GetUserType } from './types/get-user.type';
+import { GetTattooArtistType, GetUserType } from './types/get-user.type';
 
 @Injectable()
 export class AppointmentService {
@@ -126,5 +126,17 @@ export class AppointmentService {
     return {
       message: data.message,
     };
+  }
+
+  getScheduleArtist(user: GetTattooArtistType) {
+    return this.appointmentModel.find({
+      idArtist: new Types.ObjectId(user.user._id as string),
+    });
+  }
+
+  getScheduleUser(user: GetUserType) {
+    return this.appointmentModel.find({
+      idUser: new Types.ObjectId(user.user._id as string),
+    });
   }
 }

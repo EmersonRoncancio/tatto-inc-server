@@ -1,4 +1,11 @@
-import { Body, Controller, Get, Param, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  UnauthorizedException,
+  UseGuards,
+} from '@nestjs/common';
 import { AppointmentService } from './appointment.service';
 import { AuthGuard } from '@nestjs/passport';
 import { GetUser } from 'src/auth/decorators/getUser.decorator';
@@ -24,5 +31,23 @@ export class AppointmentController {
       user,
       createAppointmentDto,
     );
+  }
+
+  @Get('get-shedule-artist')
+  @UseGuards(AuthGuard())
+  getScheduleArtist(@GetUser() user: GetUserType | GetTattooArtistType) {
+    if (user.type === 'user')
+      throw new UnauthorizedException('User cannot get schedule artist');
+
+    return this.appointmentService.getScheduleArtist(user);
+  }
+
+  @Get('get-shedule-user')
+  @UseGuards(AuthGuard())
+  getScheduleUser(@GetUser() user: GetUserType | GetTattooArtistType) {
+    if (user.type === 'tattooArtist')
+      throw new UnauthorizedException('Tattoo artist cannot get schedule user');
+
+    return this.appointmentService.getScheduleUser(user);
   }
 }
