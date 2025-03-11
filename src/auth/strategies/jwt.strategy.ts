@@ -25,7 +25,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   private async validateUsersOrTattooArtist(email: string) {
     const user = await this.userModel.findOne({ email });
     const tattooArtist = await this.tattooArtistModel.findOne({ email });
-    console.log(user);
 
     if (!user && !tattooArtist) {
       throw new UnauthorizedException();
