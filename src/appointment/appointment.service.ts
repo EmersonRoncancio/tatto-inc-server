@@ -139,4 +139,20 @@ export class AppointmentService {
       idUser: new Types.ObjectId(user.user._id as string),
     });
   }
+
+  async deleteAppointment(idShedule: string) {
+    const appointment = await this.appointmentModel.findOneAndDelete(
+      { _id: new Types.ObjectId(idShedule) },
+      { new: true }, // No es necesario aquí, pero lo dejo como referencia
+    );
+
+    await this.conversationFlowModel.deleteOne({
+      tattooArtist: new Types.ObjectId(appointment?.idArtist),
+      user: new Types.ObjectId(appointment?.idUser),
+    });
+
+    return {
+      message: 'Appointment deleted',
+    };
+  }
 }

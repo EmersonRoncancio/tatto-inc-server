@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Post,
@@ -50,5 +51,19 @@ export class AppointmentController {
       throw new UnauthorizedException('Tattoo artist cannot get schedule user');
 
     return this.appointmentService.getScheduleUser(user);
+  }
+
+  @Delete('delete-shedule/:id')
+  @UseGuards(AuthGuard())
+  deleteAppointment(
+    @Param('id') id: string,
+    @GetUser() user: GetUserType | GetTattooArtistType,
+  ) {
+    if (user.type === 'user')
+      throw new UnauthorizedException(
+        'User cannot delete appointment schedule',
+      );
+
+    return this.appointmentService.deleteAppointment(id);
   }
 }
