@@ -195,4 +195,49 @@ export class MailService {
       throw new BadRequestException('Error sending email', err);
     }
   }
+
+  async sendMailResetPassword(user: User | TattooArtist, token: string) {
+    try {
+      await this.transporter.sendMail({
+        to: user.email,
+        subject: 'Restablecimiento de contraseña',
+        html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px;">
+          <h2 style="color: #333;">Hola ${user.name},</h2>
+          <p style="color: #555;">
+            Hemos recibido una solicitud para restablecer la contraseña de tu cuenta en <strong>TattooInk</strong>.
+            Si no realizaste esta solicitud, puedes ignorar este correo.
+          </p>
+          <p style="color: #555;">
+            Para restablecer tu contraseña, haz clic en el siguiente botón:
+          </p>
+          <p style="text-align: center;">
+            <a href="${token}" 
+               style="display: inline-block; padding: 12px 24px; font-size: 16px; color: white; background-color: #5cb85c; text-decoration: none; border-radius: 5px;">
+               Restablecer contraseña
+            </a>
+          </p>
+          <p style="color: #555;">
+            Si no puedes hacer clic en el botón, copia y pega la siguiente URL en tu navegador:
+            <br>
+            <a href="${token}" style="color: #5cb85c;">${token}</a>
+          </p>
+          <hr style="border: 0; height: 1px; background: #ddd; margin: 20px 0;">
+          <p style="color: #777; font-size: 12px;">
+            Este enlace caducará en 30 minutos por razones de seguridad.
+          </p>
+          <p style="color: #333; font-size: 14px;">
+            Atentamente,<br> 
+            <strong>El equipo de TattooInk.</strong>
+          </p>
+        </div>
+        `,
+      });
+
+      return true;
+    } catch (err) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+      throw new BadRequestException('Error sending email', err);
+    }
+  }
 }

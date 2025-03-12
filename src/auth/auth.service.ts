@@ -15,6 +15,8 @@ import { MailService } from 'src/configs/mailer.configs';
 import { envs } from 'src/configs/envs.configs';
 import { LoginDto } from './dto/login.dto';
 import * as bcrypt from 'bcryptjs';
+import { GetTattooArtistType, GetUserType } from './types/get-user.types';
+import { ResetPasswordDto } from './dto/reset-password.dto';
 
 @Injectable()
 export class AuthService {
@@ -209,5 +211,45 @@ export class AuthService {
         authorizedArtist: true,
       })
       .select('-password');
+  }
+
+  async forgotPassword(email: string) {
+    const user = await this.validateUsersOrTattooArtist(email);
+
+    if (!user) {
+      throw new BadRequestException('User not found');
+    }
+
+    const token = this.JwtService.sign({ email });
+
+    const Mai = new MailService();
+    if (user.type === 'user' && user.user)
+      await Mai.sendMailResetPassword(user.user, token);
+
+    if (user.type === 'tattooArtist' && user.tattooArtist)
+      await Mai.sendMailResetPassword(user.tattooArtist, token);
+
+    return { message: 'Email sent' };
+  }
+
+  async resetPassword(
+    password: ResetPasswordDto,
+    user: GetUserType | GetTattooArtistType,
+  ) {
+    if (user.type === 'user') {
+      await this.userModel.updateOne(
+        { email: user.user.email },
+        { password: bcrypt.hashSync(password.password, 8) },
+      );
+    }
+
+    if (user.type === 'tattooArtist') {
+      await this.tattooArtistModel.updateOne(
+        { email: user.user.email },
+        { password: bcrypt.hashSync(password.password, 8) },
+      );
+    }
+
+    return { message: 'Password updated' };
   }
 }

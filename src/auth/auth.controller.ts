@@ -1,4 +1,12 @@
-import { Body, Controller, Post, Get, UseGuards, Param } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Post,
+  Get,
+  UseGuards,
+  Param,
+  Patch,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { CreateTattooArtistDto } from './dto/create-tattoo-artis.dto';
@@ -7,6 +15,8 @@ import { AuthGuard } from '@nestjs/passport';
 import { User } from './entities/user.entity';
 import { GetUser } from './decorators/getUser.decorator';
 import { TattooArtist } from './entities/tattoo-artist.entity';
+import { GetTattooArtistType, GetUserType } from './types/get-user.types';
+import { ResetPasswordDto } from './dto/reset-password.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -46,5 +56,19 @@ export class AuthController {
   @Get('get-find-tattoo-artist')
   getFindTattooArtist() {
     return this.authService.getFindTattooArtist();
+  }
+
+  @Post('forgot-password')
+  forgotPassword(@Body('email') email: string) {
+    return this.authService.forgotPassword(email);
+  }
+
+  @Patch('reset-password')
+  @UseGuards(AuthGuard())
+  resetPassword(
+    @Body() password: ResetPasswordDto,
+    @GetUser() user: GetUserType | GetTattooArtistType,
+  ) {
+    return this.authService.resetPassword(password, user);
   }
 }
