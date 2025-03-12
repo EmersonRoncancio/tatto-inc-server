@@ -212,7 +212,7 @@ export class MailService {
             Para restablecer tu contraseña, haz clic en el siguiente botón:
           </p>
           <p style="text-align: center;">
-            <a href="${token}" 
+            <a href="https://tattoink.vercel.app/forgot-password/${token}" 
                style="display: inline-block; padding: 12px 24px; font-size: 16px; color: white; background-color: #5cb85c; text-decoration: none; border-radius: 5px;">
                Restablecer contraseña
             </a>
@@ -220,7 +220,7 @@ export class MailService {
           <p style="color: #555;">
             Si no puedes hacer clic en el botón, copia y pega la siguiente URL en tu navegador:
             <br>
-            <a href="${token}" style="color: #5cb85c;">${token}</a>
+            <a href="https://tattoink.vercel.app/forgot-password/${token}" style="color: #5cb85c;">https://tattoink.vercel.app/forgot-password/${token}</a>
           </p>
           <hr style="border: 0; height: 1px; background: #ddd; margin: 20px 0;">
           <p style="color: #777; font-size: 12px;">
