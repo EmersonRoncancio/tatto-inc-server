@@ -58,14 +58,14 @@ export class QualificationOfTattoArtistService {
       .populate('tattooArtist')
       .select('-__v');
 
-    const QualificationGlonal = califications.map((calification) => {
+    const QualificationGlobal = califications.map((calification) => {
       return calification.qualification;
     });
 
     const averageQualification = parseFloat(
       (
-        QualificationGlonal.reduce((a, b) => a + b, 0) /
-        QualificationGlonal.length
+        QualificationGlobal.reduce((a, b) => a + b, 0) /
+        QualificationGlobal.length
       ).toFixed(1),
     );
 

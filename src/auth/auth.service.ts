@@ -17,6 +17,7 @@ import { LoginDto } from './dto/login.dto';
 import * as bcrypt from 'bcryptjs';
 import { GetTattooArtistType, GetUserType } from './types/get-user.types';
 import { ResetPasswordDto } from './dto/reset-password.dto';
+import { QualificationOfTattoArtist } from 'src/qualification-of-tatto-artist/entities/qualification-of-tatto-artist.entity';
 
 @Injectable()
 export class AuthService {
@@ -27,6 +28,8 @@ export class AuthService {
     @InjectModel(TattooArtist.name)
     private readonly tattooArtistModel: Model<TattooArtist>,
     private readonly JwtService: JwtService,
+    @InjectModel(QualificationOfTattoArtist.name)
+    private readonly qualificationOfTattoArtistModel: Model<QualificationOfTattoArtist>,
   ) {}
 
   private async validateEmail(email: string) {
@@ -221,12 +224,38 @@ export class AuthService {
   }
 
   async getFindTattooArtist() {
-    return await this.tattooArtistModel
+    const tattooArtist = await this.tattooArtistModel
       .find({
         isVerified: true,
         authorizedArtist: true,
       })
       .select('-password');
+
+    // tattooArtist.map(async (tattooArtist) => {
+    //   const califications = await this.qualificationOfTattoArtistModel
+    //     .find({
+    //       tattooArtist: id,
+    //     })
+    //     .populate('user')
+    //     .populate('tattooArtist')
+    //     .select('-__v');
+
+    //   const QualificationGlobal = califications.map((calification) => {
+    //     return calification.qualification;
+    //   });
+
+    //   const averageQualification = parseFloat(
+    //     (
+    //       QualificationGlobal.reduce((a, b) => a + b, 0) /
+    //       QualificationGlobal.length
+    //     ).toFixed(1),
+    //   );
+
+    //   return {
+    //     ...tattooArtist,
+    //     qualification: averageQualification,
+    //   };
+    // });
   }
 
   async forgotPassword(email: string) {

@@ -5,6 +5,7 @@ import {
   Delete,
   FileTypeValidator,
   Get,
+  MaxFileSizeValidator,
   Param,
   ParseFilePipe,
   Post,
@@ -35,6 +36,7 @@ export class PostsTattooArtistController {
       new ParseFilePipe({
         validators: [
           new FileTypeValidator({ fileType: /^image\/(jpeg|png|webp)$/ }),
+          new MaxFileSizeValidator({ maxSize: 10 * 1024 * 1024 }),
         ],
       }),
     )
