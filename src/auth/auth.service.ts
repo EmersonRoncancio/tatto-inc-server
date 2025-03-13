@@ -231,31 +231,31 @@ export class AuthService {
       })
       .select('-password');
 
-    // tattooArtist.map(async (tattooArtist) => {
-    //   const califications = await this.qualificationOfTattoArtistModel
-    //     .find({
-    //       tattooArtist: id,
-    //     })
-    //     .populate('user')
-    //     .populate('tattooArtist')
-    //     .select('-__v');
+    const tatttoCalifications = await Promise.all(
+      tattooArtist.map(async (tattooArtist) => {
+        const califications = await this.qualificationOfTattoArtistModel.find({
+          tattooArtist: tattooArtist.id,
+        });
 
-    //   const QualificationGlobal = califications.map((calification) => {
-    //     return calification.qualification;
-    //   });
+        const QualificationGlobal = califications.map((calification) => {
+          return calification.qualification;
+        });
 
-    //   const averageQualification = parseFloat(
-    //     (
-    //       QualificationGlobal.reduce((a, b) => a + b, 0) /
-    //       QualificationGlobal.length
-    //     ).toFixed(1),
-    //   );
+        const averageQualification = parseFloat(
+          (
+            QualificationGlobal.reduce((a, b) => a + b, 0) /
+            QualificationGlobal.length
+          ).toFixed(1),
+        );
 
-    //   return {
-    //     ...tattooArtist,
-    //     qualification: averageQualification,
-    //   };
-    // });
+        return {
+          tattooArtist,
+          califications: averageQualification ? averageQualification : 0,
+        };
+      }),
+    );
+
+    return tatttoCalifications;
   }
 
   async forgotPassword(email: string) {
