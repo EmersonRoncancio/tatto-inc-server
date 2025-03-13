@@ -321,6 +321,9 @@ export class AuthService {
     if (user.type === 'tattooArtist' && user.tattooArtist)
       await Mai.sendMailResetPassword(user.tattooArtist, token);
 
+    if (user.type === 'user' && user.user)
+      await Mai.sendMailResetPassword(user.user, token);
+
     return { message: 'Email sent' };
   }
 
