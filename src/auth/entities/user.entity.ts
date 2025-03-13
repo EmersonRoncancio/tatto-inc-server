@@ -32,6 +32,11 @@ export class User extends Document {
   email: string;
 
   @Prop({
+    type: String,
+  })
+  password: string;
+
+  @Prop({
     type: imagesProfileandBackground,
   })
   photoPerfil: imagesProfileandBackground;

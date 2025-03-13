@@ -83,7 +83,7 @@ export class AuthService {
     if (user) {
       return await this.loginUser(createUserDto.email);
     } else {
-      return await this.registerUser(createUserDto);
+      return await this.registerUserGoogle(createUserDto);
     }
   }
 
@@ -101,7 +101,7 @@ export class AuthService {
     };
   }
 
-  async registerUser(createUserDto: CreateUserDto) {
+  async registerUserGoogle(createUserDto: CreateUserDto) {
     if (!createUserDto.name) throw new BadRequestException('Name is required');
     await this.validateEmail(createUserDto.email);
     const user = await this.userModel.create({
@@ -114,6 +114,25 @@ export class AuthService {
     const token = this.JwtService.sign({ email: user.email });
 
     return { user, token };
+  }
+
+  async registerUser(createUserDto: CreateUserDto) {
+    await this.validateEmail(createUserDto.email);
+
+    const user = await this.userModel.create({
+      name: createUserDto.name,
+      email: createUserDto.email,
+      password: bcrypt.hashSync(createUserDto.password, 8),
+    });
+
+    const tokenVerification = this.JwtService.sign({
+      email: user.email,
+    });
+
+    const Mai = new MailService();
+    const email = await Mai.sendMailUser(user, tokenVerification);
+
+    return { user, email };
   }
 
   async registerTattooArtist(createTattooArtistDto: CreateTattooArtistDto) {
@@ -183,6 +202,24 @@ export class AuthService {
 
     if (user === false) {
       throw new BadRequestException('User not found');
+    }
+
+    if (user?.type === 'user') {
+      const validatePassword = bcrypt.compareSync(
+        logindto.password,
+        user.user?.password as string,
+      );
+      if (!validatePassword) {
+        throw new BadRequestException('Invalid password');
+      }
+
+      if (!user.user?.isVerified) {
+        throw new BadRequestException('Email not verified');
+      }
+
+      return {
+        token: this.JwtService.sign({ email: user.user.email }),
+      };
     }
 
     if (user?.type === 'tattooArtist') {

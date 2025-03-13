@@ -11,5 +11,9 @@ export class CreateUserDto {
 
   @IsString()
   @IsOptional()
+  password: string;
+
+  @IsString()
+  @IsOptional()
   profileImageGoogle: string;
 }
