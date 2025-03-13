@@ -248,7 +248,7 @@ export class MailService {
     }
   }
 
-  async sendMail(user: User, token: string) {
+  async sendMailUser(user: User, token: string) {
     try {
       await this.transporter.sendMail({
         to: user.email,
