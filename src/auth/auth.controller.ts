@@ -27,6 +27,11 @@ export class AuthController {
     return this.authService.validateEmailRegisterUser(CreateUserDto);
   }
 
+  @Post('register-user')
+  registerUserOnly(@Body() CreateUserDto: CreateUserDto) {
+    return this.authService.registerUser(CreateUserDto);
+  }
+
   @Post('register-tattoo-artist')
   registerTattooArtist(@Body() CreateTattooArtistDto: CreateTattooArtistDto) {
     return this.authService.registerTattooArtist(CreateTattooArtistDto);
@@ -70,5 +75,14 @@ export class AuthController {
     @GetUser() user: GetUserType | GetTattooArtistType,
   ) {
     return this.authService.resetPassword(password, user);
+  }
+
+  @Patch('add-password-user/:id')
+  @UseGuards(AuthGuard())
+  addPasswordUser(
+    @Param('id') id: string,
+    @Body('password') password: ResetPasswordDto,
+  ) {
+    return this.authService.addPasswordUser(id, password);
   }
 }

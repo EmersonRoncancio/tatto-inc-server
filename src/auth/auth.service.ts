@@ -117,6 +117,9 @@ export class AuthService {
   }
 
   async registerUser(createUserDto: CreateUserDto) {
+    if (!createUserDto.password)
+      throw new BadRequestException('Password is required');
+
     await this.validateEmail(createUserDto.email);
 
     const user = await this.userModel.create({
@@ -205,9 +208,15 @@ export class AuthService {
     }
 
     if (user?.type === 'user') {
+      if (!user.user?.password) {
+        throw new BadRequestException(
+          'You must sign in using Google to continue',
+        );
+      }
+
       const validatePassword = bcrypt.compareSync(
         logindto.password,
-        user.user?.password as string,
+        user.user?.password,
       );
       if (!validatePassword) {
         throw new BadRequestException('Invalid password');
@@ -332,5 +341,14 @@ export class AuthService {
     }
 
     return user;
+  }
+
+  async addPasswordUser(id: string, password: ResetPasswordDto) {
+    const user = await this.userModel.findOneAndUpdate(
+      { _id: id },
+      { password: bcrypt.hashSync(password.password, 8) },
+    );
+
+    return { message: 'Password updated', ussr: user };
   }
 }
