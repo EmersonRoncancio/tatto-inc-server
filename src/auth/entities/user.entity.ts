@@ -52,6 +52,11 @@ export class User extends Document {
     default: true,
   })
   isVerified: boolean;
+
+  @Prop({
+    type: String,
+  })
+  profileImageGoogle: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

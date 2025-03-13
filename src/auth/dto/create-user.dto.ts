@@ -8,4 +8,8 @@ export class CreateUserDto {
   @IsString()
   @IsEmail()
   email: string;
+
+  @IsString()
+  @IsOptional()
+  profileImageGoogle: string;
 }
