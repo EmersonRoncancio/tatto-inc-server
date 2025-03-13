@@ -1,10 +1,15 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { CreateAuthAdminDto } from './dto/create-auth-admin.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Admin } from './entities/auth-admin.entity';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
+import { GetAdminType } from './types/GetAdminType.type';
 
 @Injectable()
 export class AuthAdminService {
@@ -48,5 +53,25 @@ export class AuthAdminService {
       user: admin,
       token: this.JwtService.sign({ user: admin.user }),
     };
+  }
+
+  async getAdmins(admin: GetAdminType) {
+    return await this.authAdminModel
+      .find({
+        _id: { $ne: admin._id },
+      })
+      .select('-password');
+  }
+
+  async deleteAdmin(admin: GetAdminType, id: string) {
+    if (admin.user !== 'firstAdmin') {
+      throw new UnauthorizedException(
+        'You do not have permission to delete administrators.',
+      );
+    }
+
+    await this.authAdminModel.deleteOne({ _id: new Types.ObjectId(id) });
+
+    return { message: 'Admin deleted' };
   }
 }
