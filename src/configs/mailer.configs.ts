@@ -20,34 +20,41 @@ export class MailService {
     });
   }
 
-  async sendMail(user: User, token: string) {
+  async sendMailWelcome(user: User) {
     try {
       await this.transporter.sendMail({
         to: user.email,
-        subject: 'Verifica tu cuenta para completar tu registro',
+        subject: '¡Bienvenido a TattooInk!',
         html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px;">
-          <h2 style="color: #333;">Hola ${user.name},</h2>
+          <h2 style="color: #333;">¡Hola ${user.name}, bienvenido a TattooInk! 🎉</h2>
           <p style="color: #555;">
-            Gracias por registrarte en <strong>TattooInk</strong>. Para activar tu cuenta y empezar a disfrutar de nuestros servicios, verifica tu correo electrónico haciendo clic en el siguiente botón:
+            Nos emociona tenerte como parte de nuestra comunidad. En <strong>TattooInk</strong>, conectamos artistas y amantes del tatuaje para que encuentren la inspiración y los mejores profesionales.
           </p>
+          <p style="color: #555;">
+            Aquí tienes algunas cosas que puedes hacer ahora:
+          </p>
+          <ul style="color: #555;">
+            <li>Explorar tatuadores y sus increíbles diseños.</li>
+            <li>Reservar citas con los mejores artistas.</li>
+          </ul>
           <p style="text-align: center;">
-            <a href="https://tattoink.vercel.app/validate-email/${token}" 
+            <a href="https://tattoink.vercel.app/login" 
                style="display: inline-block; padding: 12px 24px; font-size: 16px; color: white; background-color: #008CBA; text-decoration: none; border-radius: 5px;">
-               Verificar Email
+               Empezar ahora
             </a>
           </p>
           <p style="color: #555;">
             Si no puedes hacer clic en el botón, copia y pega la siguiente URL en tu navegador:
             <br>
-            <a href="https://tattoink.vercel.app/validate-email/${token}" style="color: #008CBA;">https://tattoink.vercel.app/validate-email/${token}</a>
+            <a href="https://tattoink.vercel.app/login" style="color: #008CBA;">https://tattoink.vercel.app/login</a>
           </p>
           <hr style="border: 0; height: 1px; background: #ddd; margin: 20px 0;">
           <p style="color: #777; font-size: 12px;">
-            Si no realizaste esta solicitud, puedes ignorar este correo.
+            Si tienes alguna pregunta, no dudes en contactarnos.
           </p>
           <p style="color: #333; font-size: 14px;">
-            Gracias, <br> 
+            ¡Esperamos que disfrutes tu experiencia!<br> 
             <strong>El equipo de TattooInk.</strong>
           </p>
         </div>

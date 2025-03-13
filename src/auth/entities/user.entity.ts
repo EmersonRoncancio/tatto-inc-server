@@ -32,12 +32,6 @@ export class User extends Document {
   email: string;
 
   @Prop({
-    type: String,
-    required: true,
-  })
-  password: string;
-
-  @Prop({
     type: imagesProfileandBackground,
   })
   photoPerfil: imagesProfileandBackground;
@@ -55,7 +49,7 @@ export class User extends Document {
 
   @Prop({
     type: Boolean,
-    default: false,
+    default: true,
   })
   isVerified: boolean;
 }

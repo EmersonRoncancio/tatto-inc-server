@@ -22,9 +22,9 @@ import { ResetPasswordDto } from './dto/reset-password.dto';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Post('register-user')
+  @Post('register-and-login-user')
   registerUser(@Body() CreateUserDto: CreateUserDto) {
-    return this.authService.registerUser(CreateUserDto);
+    return this.authService.validateEmailRegisterUser(CreateUserDto);
   }
 
   @Post('register-tattoo-artist')

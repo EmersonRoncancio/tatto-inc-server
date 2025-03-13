@@ -40,7 +40,7 @@ export class UsersAndArtisService {
       { new: true },
     );
 
-    if (user?.isVerified === true) {
+    if (user?.isVerified === false) {
       const mail = new MailService();
       await mail.sendMailDisable(user);
     }
