@@ -79,10 +79,7 @@ export class AuthController {
 
   @Patch('add-password-user/:id')
   @UseGuards(AuthGuard())
-  addPasswordUser(
-    @Param('id') id: string,
-    @Body('password') password: ResetPasswordDto,
-  ) {
+  addPasswordUser(@Param('id') id: string, @Body() password: ResetPasswordDto) {
     return this.authService.addPasswordUser(id, password);
   }
 }
