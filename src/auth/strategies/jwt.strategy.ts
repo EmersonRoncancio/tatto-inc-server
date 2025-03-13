@@ -31,6 +31,9 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     }
 
     if (user) {
+      if (user.isVerified === false)
+        throw new UnauthorizedException('Unauthorized user');
+
       return {
         user: user,
         type: 'user',
