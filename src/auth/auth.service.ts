@@ -92,6 +92,9 @@ export class AuthService {
     if (!user) {
       throw new BadRequestException('User not found');
     }
+    if (user.isVerified === false) {
+      throw new BadRequestException('Email not verified');
+    }
 
     const token = this.JwtService.sign({ email: user.email });
 
@@ -126,6 +129,7 @@ export class AuthService {
       name: createUserDto.name,
       email: createUserDto.email,
       password: bcrypt.hashSync(createUserDto.password, 8),
+      isVerified: false,
     });
 
     const tokenVerification = this.JwtService.sign({
