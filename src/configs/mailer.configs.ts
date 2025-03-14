@@ -286,4 +286,92 @@ export class MailService {
       throw new BadRequestException('Error sending email', err);
     }
   }
+
+  async sendAppointmentConfirmation(
+    user: User,
+    tattooArtist: string,
+    appointmentDate: string,
+  ) {
+    try {
+      await this.transporter.sendMail({
+        to: user.email,
+        subject: 'Tu cita para tatuaje ha sido confirmada',
+        html: `<div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px;">
+          <h2 style="color: #333;">Hola ${user.name},</h2>
+          <p style="color: #555;">
+            ¡Tu cita con el tatuador <strong>${tattooArtist}</strong> ha sido confirmada! Estamos emocionados de recibirte y hacer realidad tu próximo tatuaje.
+          </p>
+          <p style="color: #555;">
+            <strong>Detalles de la cita:</strong><br>
+            🎨 Tatuador: <strong>${tattooArtist}</strong><br>
+            📅 Fecha y hora: <strong>${appointmentDate}</strong><br>
+            📍 Ubicación: Dirección del estudio
+          </p>
+          <p style="color: #555;">
+            Si necesitas reprogramar o cancelar tu cita, por favor contáctanos con anticipación.
+          </p>
+          <hr style="border: 0; height: 1px; background: #ddd; margin: 20px 0;">
+          <p style="color: #777; font-size: 12px;">
+            Nos vemos pronto. ¡Gracias por confiar en nuestros tatuadores!
+          </p>
+          <p style="color: #333; font-size: 14px;">
+            Atentamente, <br> 
+            <strong>El equipo de Tattoo Inc.</strong>
+          </p>
+        </div>`,
+      });
+
+      return true;
+    } catch (err) {
+      throw new BadRequestException(
+        'Error sending appointment confirmation email',
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+        err,
+      );
+    }
+  }
+
+  async sendTattooArtistNotification(
+    tattooArtistName: string,
+    user: User,
+    appointmentDate: string,
+  ) {
+    try {
+      await this.transporter.sendMail({
+        to: user.email,
+        subject: 'Nueva cita agendada',
+        html: `<div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px;">
+          <h2 style="color: #333;">Hola ${tattooArtistName},</h2>
+          <p style="color: #555;">
+            ¡Tienes una nueva cita agendada! Un cliente ha reservado una sesión contigo.
+          </p>
+          <p style="color: #555;">
+            <strong>Detalles de la cita:</strong><br>
+            🧑 Cliente: <strong>${user.name}</strong><br>
+            📧 Contacto: <strong>${user.email}</strong><br>
+            📅 Fecha y hora: <strong>${appointmentDate}</strong>
+          </p>
+          <p style="color: #555;">
+            Te recomendamos ponerte en contacto con el cliente si necesitas más detalles o confirmar información adicional.
+          </p>
+          <hr style="border: 0; height: 1px; background: #ddd; margin: 20px 0;">
+          <p style="color: #777; font-size: 12px;">
+            ¡Esperamos que la sesión sea un éxito! Gracias por formar parte de Tattoo Inc.
+          </p>
+          <p style="color: #333; font-size: 14px;">
+            Atentamente, <br> 
+            <strong>El equipo de Tattoo Inc.</strong>
+          </p>
+        </div>`,
+      });
+
+      return true;
+    } catch (err) {
+      throw new BadRequestException(
+        'Error sending appointment notification email to the tattoo artist',
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+        err,
+      );
+    }
+  }
 }

@@ -8,6 +8,7 @@ import { TattooArtist } from 'src/auth/entities/tattoo-artist.entity';
 import { ConversationFlow } from './entities/conversationFlow.entity';
 import { AppointmentResponse } from './types/appointment.type';
 import { GetTattooArtistType, GetUserType } from './types/get-user.type';
+import { MailService } from 'src/configs/mailer.configs';
 
 @Injectable()
 export class AppointmentService {
@@ -121,6 +122,20 @@ export class AppointmentService {
         date: endDate,
         color: data.color,
       });
+
+      const Mail = new MailService();
+
+      await Mail.sendAppointmentConfirmation(
+        user.user,
+        tattooArtist.name,
+        endDate.toISOString(),
+      );
+
+      await Mail.sendTattooArtistNotification(
+        tattooArtist.email,
+        user.user,
+        endDate.toISOString(),
+      );
     }
 
     return {
