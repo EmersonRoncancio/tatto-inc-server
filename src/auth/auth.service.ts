@@ -331,12 +331,10 @@ export class AuthService {
     password: ResetPasswordDto,
     user: GetUserType | GetTattooArtistType,
   ) {
-    if (user.type === 'tattooArtist') {
-      await this.tattooArtistModel.updateOne(
-        { email: user.user.email },
-        { password: bcrypt.hashSync(password.password, 8) },
-      );
-    }
+    await this.tattooArtistModel.updateOne(
+      { email: user.user.email },
+      { password: bcrypt.hashSync(password.password, 8) },
+    );
 
     return { message: 'Password updated' };
   }
