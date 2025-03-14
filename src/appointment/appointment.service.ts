@@ -132,7 +132,7 @@ export class AppointmentService {
       );
 
       await Mail.sendTattooArtistNotification(
-        tattooArtist.email,
+        tattooArtist,
         user.user,
         endDate.toISOString(),
       );

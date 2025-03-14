@@ -332,16 +332,16 @@ export class MailService {
   }
 
   async sendTattooArtistNotification(
-    tattooArtistName: string,
+    tattooArtist: TattooArtist,
     user: User,
     appointmentDate: string,
   ) {
     try {
       await this.transporter.sendMail({
-        to: user.email,
+        to: tattooArtist.email,
         subject: 'Nueva cita agendada',
         html: `<div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px;">
-          <h2 style="color: #333;">Hola ${tattooArtistName},</h2>
+          <h2 style="color: #333;">Hola ${tattooArtist.name},</h2>
           <p style="color: #555;">
             ¡Tienes una nueva cita agendada! Un cliente ha reservado una sesión contigo.
           </p>
