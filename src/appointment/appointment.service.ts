@@ -159,10 +159,14 @@ export class AppointmentService {
     });
   }
 
-  getScheduleUser(user: GetUserType) {
-    return this.appointmentModel.find({
-      idUser: new Types.ObjectId(user.user._id as string),
-    });
+  async getScheduleUser(user: GetUserType) {
+    const appointments = await this.appointmentModel
+      .find({
+        idUser: new Types.ObjectId(user.user._id as string),
+      })
+      .populate('idArtist');
+
+    return appointments;
   }
 
   async deleteAppointment(idShedule: string) {
