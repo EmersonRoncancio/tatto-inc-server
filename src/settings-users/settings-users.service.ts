@@ -166,7 +166,7 @@ export class SettingsUsersService {
         .select('-password');
 
       return {
-        userBackgroundPhoto,
+        ...userBackgroundPhoto,
       };
     }
 
