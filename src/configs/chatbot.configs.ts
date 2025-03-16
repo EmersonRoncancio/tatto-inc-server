@@ -92,6 +92,12 @@ export class ChatBot {
                 description: 'The message to return to the user',
                 type: 'string',
               },
+              status: {
+                description:
+                  "The appointment status should be 'scheduled appointment' only if it is explicitly confirmed that the appointment will take place. In all other cases, it should be 'unscheduled appointment'. If the user mentions a date but does not confirm the appointment, or if the information is ambiguous, use 'unscheduled appointment'.",
+                type: 'string',
+                enum: ['scheduled appointment', 'unscheduled appointment'],
+              },
             },
             required: ['title', 'date', 'color'],
             additionalProperties: false,

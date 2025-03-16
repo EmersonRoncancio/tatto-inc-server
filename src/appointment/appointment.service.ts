@@ -9,6 +9,7 @@ import { ConversationFlow } from './entities/conversationFlow.entity';
 import { AppointmentResponse } from './types/appointment.type';
 import { GetTattooArtistType, GetUserType } from './types/get-user.type';
 import { MailService } from 'src/configs/mailer.configs';
+import { User } from 'src/auth/entities/user.entity';
 
 @Injectable()
 export class AppointmentService {
@@ -19,6 +20,8 @@ export class AppointmentService {
     private tattooArtistModel: Model<TattooArtist>,
     @InjectModel(ConversationFlow.name)
     private conversationFlowModel: Model<ConversationFlow>,
+    @InjectModel(User.name)
+    private userModel: Model<User>,
   ) {}
 
   async scheduleAppointment(
@@ -53,6 +56,7 @@ export class AppointmentService {
       message: '',
       color: '',
       date: '',
+      status: 'unscheduled appointment',
     };
     if (typeof parseData === 'string') {
       data = JSON.parse(parseData) as AppointmentResponse;
@@ -81,6 +85,12 @@ export class AppointmentService {
       },
       { new: true, upsert: true },
     );
+
+    if (data.status === 'unscheduled appointment') {
+      return {
+        message: data.message,
+      };
+    }
 
     if (data.date !== 'date not found') {
       const parts = data.date.split(' ');
@@ -165,6 +175,19 @@ export class AppointmentService {
       tattooArtist: new Types.ObjectId(appointment?.idArtist),
       user: new Types.ObjectId(appointment?.idUser),
     });
+
+    const tattooArtist = await this.tattooArtistModel.findById(
+      appointment?.idArtist,
+    );
+    const user = await this.userModel.findById(appointment?.idUser);
+    const Mail = new MailService();
+    if (tattooArtist && user) {
+      await Mail.sendTattooArtistCancellationNotification(
+        tattooArtist,
+        user,
+        appointment?.date.toISOString() as string,
+      );
+    }
 
     return {
       message: 'Appointment deleted',

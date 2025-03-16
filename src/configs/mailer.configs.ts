@@ -374,4 +374,42 @@ export class MailService {
       );
     }
   }
+
+  async sendTattooArtistCancellationNotification(
+    tattooArtist: TattooArtist,
+    user: User,
+    appointmentDate: string,
+  ) {
+    try {
+      await this.transporter.sendMail({
+        to: user.email,
+        subject: 'Cita cancelada por el tatuador',
+        html: `<div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px;">
+          <h2 style="color: #333;">Hola ${user.name},</h2>
+          <p style="color: #555;">
+            Lamentamos informarte que tu cita con <strong>${tattooArtist.name}</strong> programada para el <strong>${appointmentDate}</strong> ha sido cancelada por el tatuador.
+          </p>
+          <p style="color: #555;">
+            Si deseas reagendar tu cita o necesitas más información, puedes ponerte en contacto con nosotros o con el tatuador directamente.
+          </p>
+          <hr style="border: 0; height: 1px; background: #ddd; margin: 20px 0;">
+          <p style="color: #777; font-size: 12px;">
+            Sentimos las molestias ocasionadas y esperamos poder agendar una nueva fecha pronto.
+          </p>
+          <p style="color: #333; font-size: 14px;">
+            Atentamente, <br> 
+            <strong>El equipo de Tattoo Inc.</strong>
+          </p>
+        </div>`,
+      });
+
+      return true;
+    } catch (err) {
+      throw new BadRequestException(
+        'Error sending appointment cancellation email to the user',
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+        err,
+      );
+    }
+  }
 }
