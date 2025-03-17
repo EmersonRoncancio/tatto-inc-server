@@ -165,9 +165,7 @@ export class SettingsUsersService {
         )
         .select('-password');
 
-      return {
-        ...userBackgroundPhoto,
-      };
+      return userBackgroundPhoto;
     }
 
     if (user.type === 'tattooArtist') {
