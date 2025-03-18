@@ -35,7 +35,7 @@ export class MailService {
             Aquí tienes algunas cosas que puedes hacer ahora:
           </p>
           <ul style="color: #555;">
-            <li>Explorar tatuadores y sus increíbles diseños.</li>
+            <li>Explorar tatuadores y sus inkreíbles diseños.</li>
             <li>Reservar citas con los mejores artistas.</li>
           </ul>
           <p style="text-align: center;">
@@ -316,7 +316,7 @@ export class MailService {
           </p>
           <p style="color: #333; font-size: 14px;">
             Atentamente, <br> 
-            <strong>El equipo de Tattoo Inc.</strong>
+            <strong>El equipo de Tattoo Ink.</strong>
           </p>
         </div>`,
       });
@@ -356,11 +356,11 @@ export class MailService {
           </p>
           <hr style="border: 0; height: 1px; background: #ddd; margin: 20px 0;">
           <p style="color: #777; font-size: 12px;">
-            ¡Esperamos que la sesión sea un éxito! Gracias por formar parte de Tattoo Inc.
+            ¡Esperamos que la sesión sea un éxito! Gracias por formar parte de Tattoo Ink.
           </p>
           <p style="color: #333; font-size: 14px;">
             Atentamente, <br> 
-            <strong>El equipo de Tattoo Inc.</strong>
+            <strong>El equipo de Tattoo Ink.</strong>
           </p>
         </div>`,
       });
@@ -398,7 +398,7 @@ export class MailService {
           </p>
           <p style="color: #333; font-size: 14px;">
             Atentamente, <br> 
-            <strong>El equipo de Tattoo Inc.</strong>
+            <strong>El equipo de Tattoo Ink.</strong>
           </p>
         </div>`,
       });
@@ -410,6 +410,50 @@ export class MailService {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         err,
       );
+    }
+  }
+
+  async sendMailRejectedArtist(user: TattooArtist) {
+    try {
+      await this.transporter.sendMail({
+        to: user.email,
+        subject: 'Tu solicitud ha sido rechazada ❌',
+        html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px;">
+          <h2 style="color: #333;">Hola ${user.name},</h2>
+          <p style="color: #555;">
+            Lamentamos informarte que tu solicitud para registrarte como tatuador en <strong>TattooInk</strong> ha sido rechazada tras una revisión.
+          </p>
+          <p style="color: #555;">
+            Esto puede deberse a que no cumpliste con los requisitos necesarios o hubo algún problema con la información proporcionada. Si crees que esto fue un error o deseas más detalles, puedes ponerte en contacto con nuestro equipo de soporte.
+          </p>
+          <p style="text-align: center;">
+            <a href="https://tattoink.vercel.app/contacto" 
+               style="display: inline-block; padding: 12px 24px; font-size: 16px; color: white; background-color: #D9534F; text-decoration: none; border-radius: 5px;">
+               Contactar Soporte
+            </a>
+          </p>
+          <p style="color: #555;">
+            Si no puedes hacer clic en el botón, copia y pega la siguiente URL en tu navegador:
+            <br>
+            <a href="https://tattoink.vercel.app/contacto" style="color: #D9534F;">https://tattoink.vercel.app/contacto</a>
+          </p>
+          <hr style="border: 0; height: 1px; background: #ddd; margin: 20px 0;">
+          <p style="color: #777; font-size: 12px;">
+            Si no realizaste esta solicitud, ignora este mensaje.
+          </p>
+          <p style="color: #333; font-size: 14px;">
+            Atentamente,<br> 
+            <strong>El equipo de TattooInk.</strong>
+          </p>
+        </div>
+        `,
+      });
+
+      return true;
+    } catch (err) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+      throw new BadRequestException('Error sending email', err);
     }
   }
 }

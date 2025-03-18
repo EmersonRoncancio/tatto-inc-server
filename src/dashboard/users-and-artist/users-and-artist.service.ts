@@ -104,4 +104,20 @@ export class UsersAndArtisService {
       lengthAdmins: await this.adminModel.countDocuments(),
     };
   }
+
+  async deleteArtist(id: string) {
+    if (Types.ObjectId.isValid(id) === false)
+      throw new BadRequestException('Invalid ID');
+
+    const user = await this.tattooArtistModel.findByIdAndDelete(id);
+
+    if (!user) {
+      throw new BadRequestException('User not found');
+    }
+
+    const mail = new MailService();
+    await mail.sendMailRejectedArtist(user);
+
+    return user;
+  }
 }

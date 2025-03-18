@@ -1,4 +1,11 @@
-import { Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { UsersAndArtisService } from './users-and-artist.service';
 import { AuthGuard } from '@nestjs/passport';
 
@@ -40,5 +47,11 @@ export class UsersAndArtisController {
   @UseGuards(AuthGuard())
   getLengthData() {
     return this.usersAndArtisService.getLengthData();
+  }
+
+  @Delete('delete-user/:id')
+  @UseGuards(AuthGuard())
+  deleteArtist(@Param('id') id: string) {
+    return this.usersAndArtisService.deleteArtist(id);
   }
 }
