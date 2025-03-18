@@ -49,7 +49,7 @@ export class UsersAndArtisController {
     return this.usersAndArtisService.getLengthData();
   }
 
-  @Delete('delete-user/:id')
+  @Delete('delete-artist/:id')
   @UseGuards(AuthGuard())
   deleteArtist(@Param('id') id: string) {
     return this.usersAndArtisService.deleteArtist(id);
